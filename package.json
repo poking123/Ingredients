@@ -1,0 +1,17 @@
+{
+  "name": "ingredients",
+  "version": "1.0.0",
+  "description": "Keeps tracks of ingredients and tells you what recipes you can make",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Brian Gao",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.4.6"
+  }
+}
