@@ -18,6 +18,7 @@ describe('Unit Tests for ingredients', function() {
        list.push(tomatoes);
        list.push(bacon);
        var list2 = new ingredientModel({
+           name: "RecipeName"
            ingredients: list
        });
        

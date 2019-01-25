@@ -3,15 +3,64 @@
     <head></head>
 
     <body>
-        <ul id="ingredientsList">
-            <%= data.number.forEach(function(ingredient) { %>
-                <li><%= ingredient %></li>
-            <%= }); %>
-        </ul>
+
+        <form>
+            <label>Recipe Name:</label>
+            <input type="text" name="recipeName">
+            <br><br>
+            
+            <label>Ingredient Name:</label>
+            <input type="text" name="ingredientName" id="ingredientName">
+            <label>Quantity:</label>
+            <input type="number" name="quantity" id="quantity">
+            <button class="addIngredient">Add Ingredient</button>
+            
+            <br><br>
+            
+            <ul>
+                <% for (var i = 0; i < ingredientsList.length; i++) { %>
+                <li><%= ingredientsList[i].ingredientName %></li>
+                <% } %>
+            </ul>
+            
+            <br><br>
+            
+            <input type="submit" name="submit">
+        </form>
         <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"
           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
           crossorigin="anonymous">
+        </script>
+        
+        <script>
+            $(document).ready(function(){
+
+              $('button.addIngredient').on('click', function(){
+
+                  var ingredientName = $('form input#ingredientName');
+                  var quantity = $('form input#quantity');
+                  var data = {
+                      ingredientName: ingredientName.val(),
+                      quantity: quantity.val()
+                  };
+
+                  // sends a post request
+                  $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: data,
+                    success: function(data){
+                      //do something with the data via front-end framework
+                      location.reload();
+                    }
+                  });
+
+                  return false;
+
+              });
+
+            }); 
         </script>
     </body>
     
