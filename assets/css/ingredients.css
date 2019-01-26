@@ -1,0 +1,10 @@
+p.xButton {
+    display: inline;
+    color: darkgray;
+}
+
+p.xButton:hover {
+    filter: invert(100%);
+/*    color: blue;*/
+    cursor: pointer;
+}

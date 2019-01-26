@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="/css/ingredients.css">
+    </head>
 
     <body>
-
+        <h1>Add Inventory</h1>
         <form>
             <label>Recipe Name:</label>
             <input type="text" name="recipeName">
@@ -19,7 +21,7 @@
             
             <ul>
                 <% for (var i = 0; i < ingredientsList.length; i++) { %>
-                <li><%= ingredientsList[i].ingredientName %></li>
+                <li><%= ingredientsList[i].quantity + ' ' + ingredientsList[i].ingredientName %> <p id="<%= ingredientsList[i].ingredientName %>" class="xButton">&nbsp;&nbsp;X</p></li>
                 <% } %>
             </ul>
             
@@ -27,41 +29,17 @@
             
             <input type="submit" name="submit">
         </form>
+        
+        <h1>Inventory</h1>
+        
         <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"
           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
           crossorigin="anonymous">
         </script>
         
-        <script>
-            $(document).ready(function(){
-
-              $('button.addIngredient').on('click', function(){
-
-                  var ingredientName = $('form input#ingredientName');
-                  var quantity = $('form input#quantity');
-                  var data = {
-                      ingredientName: ingredientName.val(),
-                      quantity: quantity.val()
-                  };
-
-                  // sends a post request
-                  $.ajax({
-                    type: 'POST',
-                    url: '/',
-                    data: data,
-                    success: function(data){
-                      //do something with the data via front-end framework
-                      location.reload();
-                    }
-                  });
-
-                  return false;
-
-              });
-
-            }); 
-        </script>
+        <script src="/js/ingredients.js"></script>
+        
     </body>
     
 </html>

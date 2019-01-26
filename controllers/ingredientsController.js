@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var Ingredients = require('../models/ingredientModel');
 
+var urlencodedParser = bodyParser.urlencoded({extended: false});
 var ingredientsList = [];
 
 module.exports = function(app) {
@@ -15,22 +17,19 @@ module.exports = function(app) {
     });
     
     // POST Request
-//    app.post('/', function(req, res) {
-//        Ingredients.create(req.body).then(function(recipe) {
-//            res.send(recipe);
-//        });
-//    });
-    
-    // POST Request
-    // handles post request
-    app.post('/', function(req, res) {
+    app.post('/', urlencodedParser, function(req, res) {
         ingredientsList.push(req.body);
         res.send(ingredientsList);
         
     });
     
     // DELETE Request
-    app.post('/', function(req, res) {
-        
+    app.delete('/:ingredientName', function(req, res) {
+        var ingredientName = req.params.ingredientName;
+        ingredientsList = ingredientsList.filter(function(ingredient) {
+            console.log(ingredient);
+            return ingredient.ingredientName.replace(/ /g, '-') !== ingredientName;
+        });
+        res.send(ingredientsList);
     });
 }
