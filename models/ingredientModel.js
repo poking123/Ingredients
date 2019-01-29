@@ -9,13 +9,13 @@ var ingredientSchema = new mongoose.Schema({
     quantity: Number
 });
 
-var listSchema = new mongoose.Schema({
+var recipeSchema = new mongoose.Schema({
     name: String,
     ingredients: [ingredientSchema]
 });
 
 
 // model
-var Ingredients = mongoose.model('ingredients', listSchema);
+var Ingredients = mongoose.model('ingredients', recipeSchema);
 
 module.exports = Ingredients;

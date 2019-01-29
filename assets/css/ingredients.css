@@ -1,5 +1,8 @@
-p.xButton {
+ul.ingredients li p {
     display: inline;
+}
+
+p.xButton {
     color: darkgray;
 }
 

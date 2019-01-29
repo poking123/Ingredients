@@ -2,26 +2,31 @@
 <html>
     <head>
         <link rel="stylesheet" href="/css/ingredients.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     </head>
 
     <body>
-        <h1>Add Inventory</h1>
-        <form>
+        <!--   Add Recipe     -->
+        <h1>Add Recipe</h1>
+        <form id="addRecipe">
             <label>Recipe Name:</label>
             <input type="text" name="recipeName">
             <br><br>
             
+            <!--    Ingredients Input        -->
             <label>Ingredient Name:</label>
             <input type="text" name="ingredientName" id="ingredientName">
             <label>Quantity:</label>
             <input type="number" name="quantity" id="quantity">
             <button class="addIngredient">Add Ingredient</button>
             
-            <br><br>
-            
-            <ul>
-                <% for (var i = 0; i < ingredientsList.length; i++) { %>
-                <li><%= ingredientsList[i].quantity + ' ' + ingredientsList[i].ingredientName %> <p id="<%= ingredientsList[i].ingredientName %>" class="xButton">&nbsp;&nbsp;X</p></li>
+            <!--    List of Added Ingredients            -->
+            <ul class="ingredients">
+                <% for(var i = 0; i < ingredientsList.length; i++) { %>
+                <li><p><%= ingredientsList[i].quantity%></p>
+                    <p><%=ingredientsList[i].ingredientName %></p>
+                    <p id="<%= ingredientsList[i].ingredientName %>" class="xButton">&nbsp;&nbsp;X</p>
+                </li>
                 <% } %>
             </ul>
             
@@ -30,7 +35,35 @@
             <input type="submit" name="submit">
         </form>
         
-        <h1>Inventory</h1>
+        <!--   Recipes     -->
+        <h1>Recipes</h1>
+        
+        <!--   List of Recipes from Database     -->
+        <table>
+            <tr>
+                <th>Recipe Name</th>
+                <th>Ingredients</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <!--   Name and list of ingredients - for each recipe in database         -->
+            <% for(var i = 0; i < recipes.length; i++) { %>
+                <tr> 
+                    <td><%= recipes[i].name %></td>
+                    <td>
+                        <ul>
+                            <% for (var j = 0; j < recipes[i].ingredients.length; j++) { %>
+                                <li><%= recipes[i].ingredients[j].quantity %>&nbsp; <%= recipes[i].ingredients[j].name %></li>
+                            <% } %>
+                        </ul>
+                    </td>
+                    <td><button type="button" class="btn btn-primary">Edit</button></td>
+                    <td><button type="button" class="btn btn-danger deleteRecipe" id="<%= recipes[i].id %>">Delete</button></td>
+                </tr>
+            <% } %>
+            
+        </table>
+
         
         <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"
