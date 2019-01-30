@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var Ingredients = require('../models/ingredientModel');
+var ingredientModel = require('../models/ingredientModel');
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 var ingredientsList = [];
@@ -10,17 +10,17 @@ module.exports = function(app) {
     // GET Request
     app.get('/', function(req, res) {
         // get data from mongodb and pass it to the view
-        Ingredients.find({}, function(err, data) {
+        ingredientModel.find({}, function(err, data) {
             if (err) throw err;
             res.render('ingredients', {
                 ingredientsList: ingredientsList,
-                recipes: data
+                recipes: data,
             });
         });
     });
     
     // POST Request
-    // add ingredient
+    // Add ingredient
     app.post('/', urlencodedParser, function(req, res) {
         ingredientsList.push(req.body);
         res.send(ingredientsList);
@@ -29,18 +29,16 @@ module.exports = function(app) {
     // POST Request
     // Add recipe
     app.post('/recipe', urlencodedParser, function(req, res) {
+        // clears the ingredients on the list
+        ingredientsList = [];
         
-        
-        var recipe = new ingredientModel({
-           name: "RecipeName"
-           ingredients: list
-       });
-        ingredientsList.push(req.body);
-        res.send(ingredientsList);
+        var recipe = new ingredientModel(req.body);
+        recipe.save();
+        res.send(recipe);
     });
     
     // DELETE Request
-    // delete ingredient
+    // Delete ingredient
     app.delete('/:ingredientName', function(req, res) {
         var ingredientName = req.params.ingredientName;
         ingredientsList = ingredientsList.filter(function(ingredient) {
@@ -50,10 +48,10 @@ module.exports = function(app) {
     });
     
     // DELETE Request
-    // delete recipe
+    // Delete recipe
     app.delete('/recipe/:recipeID', function(req, res) {
         var recipeID = req.params.recipeID;
-        Ingredients.remove({_id: recipeID}, function(err, data) {
+        ingredientModel.remove({_id: recipeID}, function(err, data) {
             if (err) throw err;
             console.log('Delete Successful');
         });

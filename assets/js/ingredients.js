@@ -1,8 +1,8 @@
 $(document).ready(function(){
     
     // on click to add ingredient
-    $('button.addIngredient').on('click', function(){
-        
+    $('button.addIngredient').on('click', function(e){
+        e.preventDefault();
         var ingredientName = $('form input#ingredientName');
         var quantity = $('form input#quantity');
         var data = {
@@ -16,37 +16,49 @@ $(document).ready(function(){
             url: '/',
             data: data,
             success: function(data){
-              //do something with the data via front-end framework
-              location.reload();
+                
+                //do something with the data via front-end framework
+                location.reload();
+                
+//                var recipeName = document.querySelector('input[name="recipeName"]');
+//                recipeName.value = "hiihihihi";
+                
             }
         });
         return false;
     });
     
     // on submit to add recipe
-    $('form#addRecipe').on('submit', function(){
-        
+    $('#addRecipe').on('click', function(e){
         var recipeName = document.querySelector('input[name="recipeName"]');
         var ingredients = [];
-        var lis = document.querySelectorAll('ul.ingredients li.include');
+        var lis = document.querySelectorAll('ul.ingredients li');
+        
         lis.forEach(function(li) {
+            // order of <p> in li
+            // 0 - quantity
+            // 1 - name
+            // 2 - X
+            
             var ingredient = {
-                name: li[1].innerText,
-                quantity: li[0].innerText
+                name: li.children[1].innerText,
+                quantity: Number(li.children[0].innerText)
             };
             ingredients.push(ingredient);
         });
         var recipe = {
-            name: recipeName.val(),
+            name: recipeName.value,
             ingredients: ingredients
         };
         
+        console.log(recipe);
 
         // POST Request to add Recipes
         $.ajax({
             type: 'POST',
             url: '/recipe',
-            data: recipe,
+            data: JSON.stringify(recipe),
+            contentType: 'application/json',
             success: function(data){
               //do something with the data via front-end framework
               location.reload();
