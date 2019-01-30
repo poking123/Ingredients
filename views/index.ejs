@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <%- include head.ejs %>
+
+    <body>
+        
+        <%- include navbar.ejs %>
+        
+        <!--   Recipes     -->
+        <h1>Recipes</h1>
+
+        <!--   List of Recipes from Database     -->
+        <table>
+            <tr>
+                <th>Recipe Name</th>
+                <th>Ingredients</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <!--   Name and list of ingredients - for each recipe in database         -->
+            <% for(var i = 0; i < recipes.length; i++) { %>
+                <tr> 
+                    <td><%= recipes[i].name %></td>
+                    <td>
+                        <ul>
+                            <% for (var j = 0; j < recipes[i].ingredients.length; j++) { %>
+                                <li><%= recipes[i].ingredients[j].quantity %>&nbsp; <%= recipes[i].ingredients[j].name %></li>
+                            <% } %>
+                        </ul>
+                    </td>
+                    <td><button id="<%= recipes[i]._id %>" type="button" class="btn btn-primary">Edit</button></td>
+                    <td><button type="button" class="btn btn-danger deleteRecipe" id="<%= recipes[i].id %>">Delete</button></td>
+                </tr>
+            <% } %>
+
+        </table>
+        
+        
+        <%- include js.ejs %>
+    </body>
+</html>

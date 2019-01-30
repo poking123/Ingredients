@@ -8,16 +8,39 @@ var ingredientsList = [];
 module.exports = function(app) {
     
     // GET Request
+    // Home Page
     app.get('/', function(req, res) {
         // get data from mongodb and pass it to the view
         ingredientModel.find({}, function(err, data) {
             if (err) throw err;
-            res.render('ingredients', {
+            res.render('index', {
                 ingredientsList: ingredientsList,
-                recipes: data,
+                recipes: data
             });
         });
     });
+    
+    // GET Request
+    // Add Recipe
+    app.get('/Add_Recipe', function(req, res) {
+        res.render('addRecipe', {
+            ingredientsList: ingredientsList
+        });
+    });
+    
+    // GET Request
+    // Add Recipe
+    app.get('/Edit_Recipe/:recipeID', function(req, res) {
+        // get data from mongodb and pass it to the view
+        ingredientModel.find({_id: req.params.recipeID}, function(err, data) {
+            if (err) throw err;
+            res.render('editRecipe', {
+                recipe: data
+            });
+        });
+    });
+    
+    
     
     // POST Request
     // Add ingredient
@@ -28,7 +51,7 @@ module.exports = function(app) {
     
     // POST Request
     // Add recipe
-    app.post('/recipe', urlencodedParser, function(req, res) {
+    app.post('/recipe/add', urlencodedParser, function(req, res) {
         // clears the ingredients on the list
         ingredientsList = [];
         

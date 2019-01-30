@@ -50,13 +50,11 @@ $(document).ready(function(){
             name: recipeName.value,
             ingredients: ingredients
         };
-        
-        console.log(recipe);
 
         // POST Request to add Recipes
         $.ajax({
             type: 'POST',
-            url: '/recipe',
+            url: '/recipe/add',
             data: JSON.stringify(recipe),
             contentType: 'application/json',
             success: function(data){

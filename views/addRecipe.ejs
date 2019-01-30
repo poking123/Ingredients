@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <%- include head.ejs %>
+
+    <body>
+        <%- include navbar.ejs %>
+        
+        
+        <!--   Add Recipe     -->
+        <h1>Add Recipe</h1>
+        <form>
+            <label>Recipe Name:</label>
+            <input type="text" name="recipeName">
+            <br><br>
+
+            <!--    Ingredients Input        -->
+            <label>Ingredient Name:</label>
+            <input type="text" name="ingredientName" id="ingredientName">
+            <label>Quantity:</label>
+            <input type="number" name="quantity" id="quantity">
+            <button class="addIngredient">Add Ingredient</button>
+
+            <!--    List of Added Ingredients            -->
+            <ul class="ingredients">
+                <% for(var i = 0; i < ingredientsList.length; i++) { %>
+                <li><p><%= ingredientsList[i].quantity%></p>
+                    <p><%=ingredientsList[i].ingredientName %></p>
+                    <p id="<%= ingredientsList[i].ingredientName %>" class="xButton">&nbsp;&nbsp;X</p>
+                </li>
+                <% } %>
+            </ul>
+
+            <br><br>
+
+            <input type="submit" name="submit" value="Add Recipe" id="addRecipe">
+        </form>
+        
+        
+        <%- include js.ejs %>
+    </body>
+</html>
+
+
