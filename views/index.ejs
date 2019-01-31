@@ -16,6 +16,7 @@
                 <th>Ingredients</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
             <!--   Name and list of ingredients - for each recipe in database         -->
             <% for(var i = 0; i < recipes.length; i++) { %>
@@ -28,8 +29,9 @@
                             <% } %>
                         </ul>
                     </td>
-                    <td><button id="<%= recipes[i]._id %>" type="button" class="btn btn-primary">Edit</button></td>
-                    <td><button type="button" class="btn btn-danger deleteRecipe" id="<%= recipes[i].id %>">Delete</button></td>
+                    <td><a href="/Edit_Recipe/<%= recipes[i]._id %>"><button type="button" class="btn btn-primary">Edit</button></a></td>
+                    <td><button type="button" class="btn btn-danger deleteRecipe">Delete</button></td>
+                    <td><input type="hidden" value="<%= recipes[i]._id %>"></td>
                 </tr>
             <% } %>
 

@@ -28,7 +28,7 @@ $(document).ready(function(){
         return false;
     });
     
-    // on submit to add recipe
+    // on click to add recipe
     $('#addRecipe').on('click', function(e){
         var recipeName = document.querySelector('input[name="recipeName"]');
         var ingredients = [];
@@ -59,7 +59,7 @@ $(document).ready(function(){
             contentType: 'application/json',
             success: function(data){
               //do something with the data via front-end framework
-              location.reload();
+              location.href = '/';
             }
         });
         return false;
@@ -85,15 +85,71 @@ $(document).ready(function(){
     
     // Delete button for ingredients
     $('button.deleteRecipe').on('click', function(e){
-        var recipeID = e.target.id;
+        var parentTD = e.target.parentElement;
+        var tr = parentTD.parentElement;
+        var lastTD = tr.lastElementChild;
+        var input = lastTD.firstElementChild;
+        var recipeID = input.value;
         
         // DELETE Request to delete Ingredients
         $.ajax({
             type: 'DELETE',
-            url: '/recipe/' + recipeID,
+            url: '/recipe/delete/' + recipeID,
             success: function(data){
               //do something with the data via front-end framework
               location.reload();
+            }
+        });
+
+        return false;
+
+    });
+    
+    // Edit Recipe - Save Button
+    $('button.editRecipe').on('click', function(e){
+        var recipeName = document.getElementById('recipeName');
+        
+        var tbody = document.getElementById('recipeTableBody');
+        var tr = tbody.children[1];
+        var tdQuantity = tr.children[1].children;
+        var tdIngredient = tr.children[2].children;
+        console.log(tdQuantity);
+        var quantites = [];
+        var ingredients = [];
+        
+        for (var i = 0; i < tdQuantity.length; i++) {
+            quantites.push(Number(tdQuantity[i].value));
+            ingredients.push(tdIngredient[i].value);
+        }
+        
+        var ingredientsList = [];
+        
+        for (var i = 0; i < quantites.length; i++) {
+            var ingredient = {
+                name: ingredients[i],
+                quantity: quantites[i]
+            };
+            ingredientsList.push(ingredient);
+        }
+        
+        var save = document.querySelector('button.editRecipe');
+        var recipeID = save.nextElementSibling.value;
+        
+        var recipe = {
+            name: recipeName.value,
+            ingredients: ingredientsList
+        };
+        
+        
+        // POST Request to update Ingredients
+        $.ajax({
+            type: 'POST',
+            url: '/recipe/update/' + recipeID,
+            data: JSON.stringify(recipe),
+            contentType: 'application/json',
+            success: function(data){
+              //do something with the data via front-end framework
+              location.href = '/';
             }
         });
 

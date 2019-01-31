@@ -60,6 +60,23 @@ module.exports = function(app) {
         res.send(recipe);
     });
     
+    // POST Request
+    // Update Recipe
+    app.post('/recipe/update/:recipeID', urlencodedParser, function(req, res) {
+        var recipeID = req.params.recipeID;
+        var updatedRecipe = new ingredientModel(req.body);
+        ingredientModel.findByIdAndUpdate(recipeID, req.body, function(err, data) {
+            if (err) throw err;
+            res.send(updatedRecipe);
+        });
+//        ingredientModel.findOneAndUpdate({id: recipeID}, updatedRecipe, function(err, data) {
+//            if (err) throw err;
+//            res.send(updatedRecipe);
+//        });
+    });
+
+    
+    
     // DELETE Request
     // Delete ingredient
     app.delete('/:ingredientName', function(req, res) {
@@ -72,7 +89,7 @@ module.exports = function(app) {
     
     // DELETE Request
     // Delete recipe
-    app.delete('/recipe/:recipeID', function(req, res) {
+    app.delete('/recipe/delete/:recipeID', function(req, res) {
         var recipeID = req.params.recipeID;
         ingredientModel.remove({_id: recipeID}, function(err, data) {
             if (err) throw err;

@@ -1,3 +1,25 @@
+html {
+    background-color: white;
+    margin: 0 5%;
+    height: 100%;
+}
+
+body {
+    background-image: url('../img/restaurant.png');
+    height: 100%;
+}
+
+nav {
+    background-image: url('../img/tiny-squares.png');
+    height: 75px;
+    font-weight: 700;
+}
+
+input {
+    border-radius: 2.5px;
+    border:0.5px solid black;
+}
+
 ul.ingredients li p {
     display: inline;
 }
@@ -10,4 +32,8 @@ p.xButton:hover {
     filter: invert(100%);
 /*    color: blue;*/
     cursor: pointer;
+}
+
+.editRecipeIngredient {
+    display: block;
 }

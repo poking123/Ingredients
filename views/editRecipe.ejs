@@ -6,7 +6,34 @@
         
         <%- include navbar.ejs %>
         
+        <h1>Edit Recipe:</h1>
         
+        <table>
+            <tbody id="recipeTableBody">
+                <tr>
+                    <th>Recipe Name</th>
+                    <th>Quantity</th>
+                    <th>Ingredient Name</th>
+                </tr>
+                <tr>
+                    <td><input id="recipeName" type="text" value="<%= recipe[0].name %>"></td>
+                    <td>
+                        <% for (var i = 0; i < recipe[0].ingredients.length; i++) { %>
+                            <input class="editRecipeIngredient" type="number" value="<%= recipe[0].ingredients[i].quantity %>">
+                        <% } %>
+                    </td>
+                    <td>
+                        <% for (var i = 0; i < recipe[0].ingredients.length; i++) { %>
+                            <input class="editRecipeIngredient" type="text" value="<%= recipe[0].ingredients[i].name %>">
+                        <% } %>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <button type="button" class="btn btn-info editRecipe">Save</button>
+        <input type="hidden" value="<%= recipe[0]._id %>">
         
         
         <%- include js.ejs %>
