@@ -1,0 +1,9 @@
+/* X Button to Delete Ingredients*/
+p.xButton {
+    color: darkgray;
+}
+
+p.xButton:hover {
+    filter: invert(100%);
+    cursor: pointer;
+}

@@ -24,16 +24,4 @@ ul.ingredients li p {
     display: inline;
 }
 
-p.xButton {
-    color: darkgray;
-}
 
-p.xButton:hover {
-    filter: invert(100%);
-/*    color: blue;*/
-    cursor: pointer;
-}
-
-.editRecipeIngredient {
-    display: block;
-}

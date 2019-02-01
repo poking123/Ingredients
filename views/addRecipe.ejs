@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <%- include head.ejs %>
+    <link rel="stylesheet" href="/css/addRecipe.css">
 
     <body>
         <%- include navbar.ejs %>
@@ -19,13 +20,14 @@
             <label>Quantity:</label>
             <input type="number" name="quantity" id="quantity">
             <button class="addIngredient">Add Ingredient</button>
+            <p>Note: You must add ingredients to the list.</p>
 
             <!--    List of Added Ingredients            -->
             <ul class="ingredients">
                 <% for(var i = 0; i < ingredientsList.length; i++) { %>
                 <li><p><%= ingredientsList[i].quantity%></p>
                     <p><%=ingredientsList[i].ingredientName %></p>
-                    <p id="<%= ingredientsList[i].ingredientName %>" class="xButton">&nbsp;&nbsp;X</p>
+                    <p class="xButton">&nbsp;&nbsp;X</p>
                 </li>
                 <% } %>
             </ul>
@@ -37,6 +39,7 @@
         
         
         <%- include js.ejs %>
+        <script src="/js/addRecipe.js"></script>
     </body>
 </html>
 

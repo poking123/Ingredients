@@ -69,10 +69,6 @@ module.exports = function(app) {
             if (err) throw err;
             res.send(updatedRecipe);
         });
-//        ingredientModel.findOneAndUpdate({id: recipeID}, updatedRecipe, function(err, data) {
-//            if (err) throw err;
-//            res.send(updatedRecipe);
-//        });
     });
 
     

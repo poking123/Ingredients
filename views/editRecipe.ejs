@@ -8,26 +8,41 @@
         
         <h1>Edit Recipe:</h1>
         
+        Recipe Name:
+        <input type="text" id="editRecipeName" value="<%= recipe[0].name %>">
+        
+        <table>
+            <tbody>
+            
+            </tbody>
+        </table>
+        
+        <br><br>
+        
         <table>
             <tbody id="recipeTableBody">
                 <tr>
-                    <th>Recipe Name</th>
-                    <th>Quantity</th>
                     <th>Ingredient Name</th>
+                    <th>Quantity</th>
+                    <th></th>
                 </tr>
+                
+                <% for (var i = 0; i < recipe[0].ingredients.length; i++) { %>
                 <tr>
-                    <td><input id="recipeName" type="text" value="<%= recipe[0].name %>"></td>
                     <td>
-                        <% for (var i = 0; i < recipe[0].ingredients.length; i++) { %>
-                            <input class="editRecipeIngredient" type="number" value="<%= recipe[0].ingredients[i].quantity %>">
-                        <% } %>
+                        <input type="text" value="<%= recipe[0].ingredients[i].name %>">
                     </td>
+                    
                     <td>
-                        <% for (var i = 0; i < recipe[0].ingredients.length; i++) { %>
-                            <input class="editRecipeIngredient" type="text" value="<%= recipe[0].ingredients[i].name %>">
-                        <% } %>
+                        <input type="number" value="<%= recipe[0].ingredients[i].quantity %>">
                     </td>
+                    
+                    <td><button type="button" class="btn btn-danger deleteRow">Delete</button></td>
+                </tr> 
+                <% } %>
 
+                <tr>
+                    <td colspan="2" class="addIngredientTD"><button id="addIngredientRow">Add Row</button></td>
                 </tr>
             </tbody>
         </table>
@@ -37,5 +52,6 @@
         
         
         <%- include js.ejs %>
+        <script src="/js/editRecipe.js"></script>
     </body>
 </html>
