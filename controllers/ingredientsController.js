@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var pluralize = require('../pluralize/pluralize');
 var ingredientModel = require('../models/ingredientModel');
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 var ingredientsList = [];
+
+
 
 module.exports = function(app) {
     
@@ -44,9 +47,20 @@ module.exports = function(app) {
     
     // POST Request
     // Add ingredient
-    app.post('/', urlencodedParser, function(req, res) {
-        ingredientsList.push(req.body);
-        res.send(ingredientsList);
+    app.post('/ingredient/add', urlencodedParser, function(req, res) {
+        var ingredientName = req.body.name;
+        var quantity = req.body.quantity;
+        
+        ingredientName = pluralize.ingredientPlurality(ingredientName, quantity);
+        
+        var ingredient = {
+            name: ingredientName,
+            quantity: quantity
+        };
+            
+        ingredientsList.push(ingredient);
+        res.send(ingredient);
+        //res.send(ingredientsList);
     });
     
     // POST Request
@@ -55,7 +69,17 @@ module.exports = function(app) {
         // clears the ingredients on the list
         ingredientsList = [];
         
-        var recipe = new ingredientModel(req.body);
+        var ingredients = req.body.ingredients;
+        for (var i = 0; i < ingredients.length; i++) {
+            var ingredient = ingredients[i];
+            var quantity = ingredient.quantity;
+            ingredient.name = pluralize.ingredientPlurality(ingredient.name, quantity);
+        }
+        
+        var recipe = new ingredientModel({
+            name: req.body.name,
+            ingredients: ingredients
+        });
         recipe.save();
         res.send(recipe);
     });
@@ -64,8 +88,14 @@ module.exports = function(app) {
     // Update Recipe
     app.post('/recipe/update/:recipeID', urlencodedParser, function(req, res) {
         var recipeID = req.params.recipeID;
-        var updatedRecipe = new ingredientModel(req.body);
-        ingredientModel.findByIdAndUpdate(recipeID, req.body, function(err, data) {
+        var updatedRecipeObject = req.body;
+        for (var i = 0; i < updatedRecipeObject.ingredients.length; i++) {
+            var name = updatedRecipeObject.ingredients[i].name;
+            var quantity = updatedRecipeObject.ingredients[i].quantity;
+            updatedRecipeObject.ingredients[i].name = pluralize.ingredientPlurality(name, quantity);
+        }
+        var updatedRecipe = new ingredientModel(updatedRecipeObject);
+        ingredientModel.findByIdAndUpdate(recipeID, updatedRecipeObject, function(err, data) {
             if (err) throw err;
             res.send(updatedRecipe);
         });
@@ -75,10 +105,10 @@ module.exports = function(app) {
     
     // DELETE Request
     // Delete ingredient
-    app.delete('/:ingredientName', function(req, res) {
-        var ingredientName = req.params.ingredientName;
+    app.delete('/ingredient/delete/:name', function(req, res) {
+        var ingredientName = req.params.name;
         ingredientsList = ingredientsList.filter(function(ingredient) {
-            return ingredient.ingredientName.replace(/ /g, '-') !== ingredientName;
+            return ingredient.name.replace(/ /g, '-') !== ingredientName;
         });
         res.send(ingredientsList);
     });

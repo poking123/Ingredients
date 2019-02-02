@@ -5,6 +5,7 @@
     <body>
         
         <%- include navbar.ejs %>
+        <link rel="stylesheet" href="/css/index.css">
         
         <!--   Recipes     -->
         <h1>Recipes</h1>
@@ -23,9 +24,9 @@
                 <tr> 
                     <td><%= recipes[i].name %></td>
                     <td>
-                        <ul>
+                        <ul class="list-group">
                             <% for (var j = 0; j < recipes[i].ingredients.length; j++) { %>
-                                <li><%= recipes[i].ingredients[j].quantity %>&nbsp; <%= recipes[i].ingredients[j].name %></li>
+                                <li class="list-group-item recipeLI"><%= recipes[i].ingredients[j].quantity %>&nbsp; <%= recipes[i].ingredients[j].name %></li>
                             <% } %>
                         </ul>
                     </td>
@@ -34,8 +35,35 @@
                     <td><input type="hidden" value="<%= recipes[i]._id %>"></td>
                 </tr>
             <% } %>
-
         </table>
+        
+        <!--   Trying a different display with grid     -->
+        
+<!--
+        <main>
+            <h1>Recipes</h1>
+            
+            
+            <div class="recipeWrapper">
+                <h5 class="recipeName">Recipe Name</h5>
+                <% for (var i = 0; i < recipes.length; i++) { %>
+                    <p><%= recipes[i].name %></p>
+
+                    <h5>Ingredients</h5>
+                    <ul class="list-group">
+                        <% for (var j = 0; j < recipes[i].ingredients.length; j++) { %>
+                            <li class="list-group-item"><%= recipes[i].ingredients[j].quantity %>&nbsp; <%= recipes[i].ingredients[j].name %></li>
+                        <% } %>
+                    </ul>
+                    
+
+                <% } %>
+                
+            </div>
+            
+        </main>
+-->
+        
         
         
         <%- include js.ejs %>

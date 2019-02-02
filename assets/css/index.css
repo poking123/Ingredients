@@ -1,0 +1,13 @@
+main .recipeNameWrapper {
+    display: grid;
+    width: 30%;
+}
+
+main .recipeName {
+    font-weight: 700;
+}
+
+
+recipeLI {
+    height: 0.5%;
+}

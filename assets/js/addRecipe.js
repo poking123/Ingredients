@@ -1,31 +1,28 @@
 $(document).ready(function(){
-
+    
     // on click to add ingredient
     $('button.addIngredient').on('click', function(e) {
-        var ingredientName = $('form input#ingredientName');
-        var quantity = $('form input#quantity');
-        console.log(ingredientName);
+        var ingredientName = $('input#ingredientName');
+        var quantity = $('input#quantity');
         
-        if (ingredientName !== '' && ingredientName !== null) {
-            var data = {
-                ingredientName: ingredientName.val(),
-                quantity: quantity.val()
-            };
+        var ingredient = {
+            name: ingredientName.val(),
+            quantity: Number(quantity.val())
+        };
 
-            // POST Request to add Ingredients
-            $.ajax({
-                type: 'POST',
-                url: '/',
-                data: data,
-                success: function(data){
-
-                    //do something with the data via front-end framework
-                    location.reload();
-                }
-            });
-            return false;
-        }
-
+        console.log(ingredient);
+        // POST Request to add Ingredients
+        $.ajax({
+            type: 'POST',
+            url: '/ingredient/add',
+            data: JSON.stringify(ingredient),
+            contentType: 'application/json',
+            success: function(data){
+                //do something with the data via front-end framework
+                location.reload();
+            }
+        });
+        return false;
     });
     
     // on click to add recipe
@@ -72,7 +69,7 @@ $(document).ready(function(){
         // DELETE Request to delete Ingredients
         $.ajax({
             type: 'DELETE',
-            url: '/' + ingredientName.innerText,
+            url: '/ingredient/delete/' + ingredientName.innerText,
             success: function(data){
               //do something with the data via front-end framework
               location.reload();
