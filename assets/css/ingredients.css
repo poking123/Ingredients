@@ -16,8 +16,8 @@ nav {
 }
 
 input {
-    border-radius: 2.5px;
-    border:0.5px solid black;
+    border-radius: 3px;
+    border:2px solid black;
 }
 
 ul.ingredients li p {

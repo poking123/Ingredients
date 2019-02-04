@@ -2,26 +2,42 @@ $(document).ready(function(){
     
     // on click to add ingredient
     $('button.addIngredient').on('click', function(e) {
-        var ingredientName = $('input#ingredientName');
-        var quantity = $('input#quantity');
+        var ingredientNameInput = document.querySelector('input#ingredientName');
+        var ingredientName = ingredientNameInput.value;
+        var quantityInput = document.querySelector('input#quantity');
+        var quantity = Number(quantityInput.value);
         
-        var ingredient = {
-            name: ingredientName.val(),
-            quantity: Number(quantity.val())
-        };
+        if (ingredientName !== '' && ingredientName !== null && quantity > 0) {
+            
+            var ingredient = {
+                name: ingredientName,
+                quantity: quantity
+            };
 
-        console.log(ingredient);
-        // POST Request to add Ingredients
-        $.ajax({
-            type: 'POST',
-            url: '/ingredient/add',
-            data: JSON.stringify(ingredient),
-            contentType: 'application/json',
-            success: function(data){
-                //do something with the data via front-end framework
-                location.reload();
+
+            // POST Request to add Ingredients
+            $.ajax({
+                type: 'POST',
+                url: '/ingredient/add',
+                data: JSON.stringify(ingredient),
+                contentType: 'application/json',
+                success: function(data){
+                    //do something with the data via front-end framework
+                    location.reload();
+                    ingredientNameInput.style.borderColor = 'black';
+                    quantityInput.style.borderColor = 'black';
+                }
+            });
+        } else {
+            if (ingredientName === '' || ingredientName === null) {
+                ingredientNameInput.style.borderColor = 'red';
             }
-        });
+            
+            if (quantity <= 0) {
+                quantityInput.style.borderColor = 'red';
+            }
+        }
+        
         return false;
     });
     

@@ -89,12 +89,14 @@ module.exports = function(app) {
     app.post('/recipe/update/:recipeID', urlencodedParser, function(req, res) {
         var recipeID = req.params.recipeID;
         var updatedRecipeObject = req.body;
+        // go through all the ingredients to change the plurality
         for (var i = 0; i < updatedRecipeObject.ingredients.length; i++) {
             var name = updatedRecipeObject.ingredients[i].name;
             var quantity = updatedRecipeObject.ingredients[i].quantity;
             updatedRecipeObject.ingredients[i].name = pluralize.ingredientPlurality(name, quantity);
         }
         var updatedRecipe = new ingredientModel(updatedRecipeObject);
+        // update the recipe
         ingredientModel.findByIdAndUpdate(recipeID, updatedRecipeObject, function(err, data) {
             if (err) throw err;
             res.send(updatedRecipe);
