@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var pluralize = require('../pluralize/pluralize');
+var pluralize = require('../lib/pluralize');
 var ingredientModel = require('../models/ingredientModel');
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
