@@ -18,7 +18,7 @@ $(document).ready(function(){
             // POST Request to add Ingredients
             $.ajax({
                 type: 'POST',
-                url: '/ingredient/add',
+                url: 'Add_Recipe/ingredient/add',
                 data: JSON.stringify(ingredient),
                 contentType: 'application/json',
                 success: function(data){
@@ -67,7 +67,7 @@ $(document).ready(function(){
         // POST Request to add Recipes
         $.ajax({
             type: 'POST',
-            url: '/recipe/add',
+            url: 'Add_Recipe/recipe/add',
             data: JSON.stringify(recipe),
             contentType: 'application/json',
             success: function(data){
@@ -85,7 +85,7 @@ $(document).ready(function(){
         // DELETE Request to delete Ingredients
         $.ajax({
             type: 'DELETE',
-            url: '/ingredient/delete/' + ingredientName.innerText,
+            url: 'Add_Recipe/ingredient/delete/' + ingredientName.innerText,
             success: function(data){
               //do something with the data via front-end framework
               location.reload();
