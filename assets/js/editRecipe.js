@@ -36,7 +36,7 @@ $(document).ready(function(){
         // POST Request to update Ingredients
         $.ajax({
             type: 'POST',
-            url: '/recipe/update/' + recipeID,
+            url: 'Edit_Recipe/recipe/update/' + recipeID,
             data: JSON.stringify(recipe),
             contentType: 'application/json',
             success: function(data){
