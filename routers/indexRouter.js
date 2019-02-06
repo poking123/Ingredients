@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var ingredientModel = require('../models/ingredientModel');
 
+var ingredientsList = [];
+
 // Get Home Page
 router.get('/', function(req, res) {
   // get data from mongodb and pass it to the view
@@ -24,5 +26,6 @@ router.delete('/recipe/delete/:recipeID', function(req, res) {
   });
   res.send(ingredientsList);
 });
+
 
 module.exports = router;
