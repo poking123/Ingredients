@@ -14,13 +14,34 @@
             <input type="text" name="recipeName">
             <br><br>
 
-            <!--    Ingredients Input        -->
-            <label>Ingredient Name:</label>
-            <input type="text" name="ingredientName" id="ingredientName">
-            <label>Quantity:</label>
-            <input type="number" name="quantity" id="quantity">
-            <button class="addIngredient">Add Ingredient</button>
-            <p>Note: You must add ingredients to the list.</p>
+            <div id="ingredientInput">
+                <!--    Ingredient Name Input        -->
+                <div id="ingredientNameInput">
+                    <label id="ingredientNameLabel">Ingredient Name:</label>
+                    <input type="text" name="ingredientName" id="ingredientName">
+                    <span id="nameError"></span>
+                </div>
+
+                <!--    Quantity Input        -->
+                <div id="quantityInput">
+                    <label id="quantityLabel">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" min="0">
+                    <span id="quantityError"></span>
+                </div>
+                
+                <!--    Add Ingredient Button            -->
+                <div>
+                    <button class="btn btn-primary addIngredient">Add Ingredient</button><br>
+                </div>
+                
+            </div>
+            
+            
+            
+            
+            
+            
+            <p>Note: You must add ingredients to the recipe.</p>
 
             <!--    List of Added Ingredients            -->
             <ul class="ingredients">

@@ -7,6 +7,8 @@ $(document).ready(function(){
         var quantityInput = document.querySelector('input#quantity');
         var quantity = Number(quantityInput.value);
         
+        // checking that the ingredient name is not empty
+        // and the quantity is greater than 0
         if (ingredientName !== '' && ingredientName !== null && quantity > 0) {
             
             var ingredient = {
@@ -24,17 +26,44 @@ $(document).ready(function(){
                 success: function(data){
                     //do something with the data via front-end framework
                     location.reload();
+                    // sets the borders back to the color black
                     ingredientNameInput.style.borderColor = 'black';
                     quantityInput.style.borderColor = 'black';
                 }
             });
-        } else {
+        } else { // error
+            // No Input for Ingredient Name
+            var nameError = document.getElementById('nameError');
+            var ingredientlabel = document.getElementById('ingredientNameLabel');
             if (ingredientName === '' || ingredientName === null) {
+                // red border
                 ingredientNameInput.style.borderColor = 'red';
+                // red error message (span)
+                nameError.innerText = 'Please Input an Ingredient Name';
+                nameError.style.color = 'red';
+                // red label - Ingredient Name
+                ingredientlabel.style.color = 'red';
+            } else {
+                ingredientNameInput.style.borderColor = 'black';
+                nameError.style.display = 'none';
+                ingredientlabel.style.color = 'black';
             }
             
+            // Quantity Input 0 or less
+            var quantityError = document.getElementById('quantityError');
+            var quantityLabel = document.getElementById('quantityLabel');
             if (quantity <= 0) {
+                // red border
                 quantityInput.style.borderColor = 'red';
+                // red error message (span)
+                quantityError.innerText = 'Please Input a Positive Quantity';
+                quantityError.style.color = 'red';
+                // red label - Ingredient Name
+                quantityLabel.style.color = 'red';
+            } else {
+                quantityInput.style.borderColor = 'black';
+                quantityError.style.display = 'none';
+                quantityLabel.style.color = 'black';
             }
         }
         
@@ -95,5 +124,24 @@ $(document).ready(function(){
         return false;
 
     });
+    
+    // Quantity Input Restrictions
+    var quantity = document.getElementById('quantity');
+    var noDash = function(e) {
+        if (e.key === '-') {
+            e.preventDefault();
+        }
+    };
+    // Do Not Allow User to Enter '-' in quantity input
+    quantity.addEventListener('keydown', noDash);
+    
+    var noDashPaste = function(e) {
+        if (e.clipboardData.getData('text').includes('-')) {
+            e.preventDefault();
+        }
+    };
+    // Do Not Allow User to Past 'e' in quantity input
+    quantity.addEventListener('paste', noDashPaste);
+    
     
 });
