@@ -70,44 +70,7 @@ $(document).ready(function(){
         return false;
     });
     
-    // on click to add recipe
-    $('#addRecipe').on('click', function(e) {
-        var recipeName = document.querySelector('input[name="recipeName"]');
-        var ingredients = [];
-        var lis = document.querySelectorAll('ul.ingredients li');
-        
-        lis.forEach(function(li) {
-            // order of <p> in li
-            // 0 - quantity
-            // 1 - name
-            // 2 - X
-            
-            var ingredient = {
-                name: li.children[1].innerText,
-                quantity: Number(li.children[0].innerText)
-            };
-            ingredients.push(ingredient);
-        });
-        var recipe = {
-            name: recipeName.value,
-            ingredients: ingredients
-        };
-
-        // POST Request to add Recipes
-        $.ajax({
-            type: 'POST',
-            url: 'Add_Recipe/recipe/add',
-            data: JSON.stringify(recipe),
-            contentType: 'application/json',
-            success: function(data){
-              //do something with the data via front-end framework
-              location.href = '/';
-            }
-        });
-        return false;
-    });
-    
-    // on click for X next to ingredients
+    // Delete Ingredient - on click for X next to ingredients
     $('p.xButton').on('click', function(e) {
         var ingredientName = e.target.previousElementSibling;
         
@@ -124,11 +87,117 @@ $(document).ready(function(){
         return false;
 
     });
+
+    // Add Recipe - Ajax Call
+    var addRecipe = function(recipe) {
+        $.ajax({
+            type: 'POST',
+            url: 'Add_Recipe/recipe/add',
+            data: JSON.stringify(recipe),
+            contentType: 'application/json',
+            success: function(data){
+              //do something with the data via front-end framework
+              location.href = '/';
+            }
+        });
+    }
+
+    // Add Recipe
+    $('input#addRecipe').on('click', function(e) {
+        e.preventDefault();
+        var recipeName = document.querySelector('input[name="recipeName"]');
+        var ingredients = [];
+        var lis = document.querySelectorAll('ul.ingredients li');
+        
+        lis.forEach(function(li) {
+            // order of <p> in li
+            // 0 - quantity
+            // 1 - name
+            // 2 - X
+            
+            var ingredient = {
+                name: li.children[1].innerText,
+                quantity: Number(li.children[0].innerText)
+            };
+            ingredients.push(ingredient);
+        });
+
+        var recipe = {
+            name: recipeName.value,
+            ingredients: ingredients
+        };
+
+        // Error Checking
+        var hasName = false;
+        if (recipe.name !== '' && recipe.name !== null) {
+            hasName = true;
+        }
+
+        var hasIngredients = false;
+        if (recipe.ingredients.length !== 0) {
+            hasIngredients = true;
+        }
+
+        // Checks If Recipe Name is already used
+        $.ajax({
+            type: 'POST',
+            url: 'Add_Recipe/checkIfNameExists',
+            data: JSON.stringify({recipeName: recipeName.value}),
+            contentType: 'application/json',
+            success: function(nameAlreadyExists) {
+                console.log(nameAlreadyExists);
+                if (!nameAlreadyExists && hasName && hasIngredients) {
+                    addRecipe(recipe); // Add Recipe - Ajax Call
+                    return false;
+                } else {
+                    var recipeNameLabel = document.getElementById('recipeNameLabel');
+                    var recipeNameSpan = document.getElementById('recipeNameError');
+                    if (nameAlreadyExists) { // Name already exists
+                        recipeNameSpan.style.display = 'inline';
+                        recipeNameSpan.innerText = recipeName.value + ' is already in the database.';
+                        recipeNameSpan.style.color = 'red';
+
+                        recipeNameLabel.style.color = 'red';
+                        recipeName.style.borderColor = 'red';
+                    } else {
+                        recipeNameSpan.style.display = 'none';
+                        recipeNameLabel.style.color = 'black';
+                        recipeName.style.borderColor = 'black';
+                    }
+
+                    if (!hasName) { // No Name
+                        recipeNameSpan.style.display = 'inline';
+                        recipeNameSpan.innerText = 'Recipe Name Cannot Be Blank.';
+                        recipeNameSpan.style.color = 'red';
+
+                        recipeNameLabel.style.color = 'red';
+                        recipeName.style.borderColor = 'red';
+                    } else {
+                        if (!nameAlreadyExists) {
+                            recipeNameSpan.style.display = 'none';
+                            recipeNameLabel.style.color = 'black';
+                            recipeName.style.borderColor = 'black';
+                        }
+                    }
+
+                    if (!hasIngredients) { // No ingredients
+                        var ingredientListSpan = document.getElementById('ingredientListError');
+                        ingredientListSpan.innerText = 'Please Add Ingredients To The Recipe';
+                        ingredientListSpan.style.color = 'red';
+                    }
+                }
+            }
+        });
+        
+        
+
+        
+    });
     
     // Quantity Input Restrictions
     var quantity = document.getElementById('quantity');
     var noDash = function(e) {
-        if (e.key === '-') {
+        if (e.key === '-' || e.key === '+') {
             e.preventDefault();
         }
     };
@@ -136,12 +205,10 @@ $(document).ready(function(){
     quantity.addEventListener('keydown', noDash);
     
     var noDashPaste = function(e) {
-        if (e.clipboardData.getData('text').includes('-')) {
+        if (e.clipboardData.getData('text').includes('-') || e.clipboardData.getData('text').includes('+')) {
             e.preventDefault();
         }
     };
-    // Do Not Allow User to Past 'e' in quantity input
-    quantity.addEventListener('paste', noDashPaste);
-    
-    
+    // Do Not Allow User to Paste '-' in quantity input
+    quantity.addEventListener('paste', noDashPaste);    
 });

@@ -10,8 +10,9 @@
         <!--   Add Recipe     -->
         <h1>Add Recipe</h1>
         <form>
-            <label>Recipe Name:</label>
-            <input type="text" name="recipeName">
+            <label id="recipeNameLabel">Recipe Name:</label>
+            <input type="text" name="recipeName" id="recipeName">
+            <span id="recipeNameError"></span>
             <br><br>
 
             <div id="ingredientInput">
@@ -35,13 +36,8 @@
                 </div>
                 
             </div>
-            
-            
-            
-            
-            
-            
-            <p>Note: You must add ingredients to the recipe.</p>
+
+            <span id="ingredientListError"></span>
 
             <!--    List of Added Ingredients            -->
             <ul class="ingredients">
@@ -55,7 +51,9 @@
 
             <br><br>
 
+            <!-- Add Recipe Button -->
             <input type="submit" name="submit" value="Add Recipe" id="addRecipe">
+            <span id="recipeNameError"></span>
         </form>
         
         

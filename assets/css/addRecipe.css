@@ -7,6 +7,11 @@
     min-width: 60%;
 }
 
+/* Error Spans */
+span#recipeNameError{
+    display: inline;
+}
+
 #ingredientInput #ingredientNameInput span#nameError{
     display: block;
     text-align: right;
@@ -17,6 +22,9 @@
     text-align: right;
 }
 
+#recipeNameError {
+    display:block;
+}
 
 /* X Button to Delete Ingredients*/
 p.xButton {
@@ -25,5 +33,10 @@ p.xButton {
 
 p.xButton:hover {
     filter: invert(100%);
+    cursor: pointer;
+}
+
+/* Add Recipe Button */
+#addRecipe:hover {
     cursor: pointer;
 }

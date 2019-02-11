@@ -29,6 +29,16 @@ router.post('/ingredient/add', function(req, res) {
   //res.send(ingredientsList);
 });
 
+router.post('/checkIfNameExists', function(req, res) {
+    var recipeName = req.body.recipeName;
+    var nameAlreadyExists = false;
+    ingredientModel.find({name: recipeName}, function(err, data) {
+        if (err) throw err;
+        if (data.length) nameAlreadyExists = true;
+        res.send(nameAlreadyExists);
+    });
+});
+
 // Delete ingredient
 router.delete('/ingredient/delete/:name', function(req, res) {
   var ingredientName = req.params.name;
