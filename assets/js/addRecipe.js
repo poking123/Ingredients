@@ -96,8 +96,8 @@ $(document).ready(function(){
             data: JSON.stringify(recipe),
             contentType: 'application/json',
             success: function(data){
-              //do something with the data via front-end framework
-              location.href = '/';
+                //do something with the data via front-end framework
+                location.href = '/';
             }
         });
     }

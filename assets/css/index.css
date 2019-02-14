@@ -1,13 +1,34 @@
-main .recipeNameWrapper {
+main {
+    text-align: center;
+}
+
+/* Main Three columns */
+main div.contentWrapper {
     display: grid;
-    width: 30%;
+    grid-template-columns: 1fr 2fr;
+    align-content: center;
 }
 
-main .recipeName {
-    font-weight: 700;
+/* Allows us to center ingredients in any column (inventory or recipe) */
+main div.ingredientsWrapper {
+    display: grid;
+    align-items: start;
 }
 
+/* Two inner recipe columns */
+main div.recipeWrapper div.recipes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 7.5%;
+}
 
-recipeLI {
-    height: 0.5%;
+.display-4 {
+    font-size: 24px;
+    margin-bottom: 7.5%;
+}
+
+/* Ingredients ul list - Justify-self:center */
+main div.contentWrapper ul.list-group {
+    justify-self: center;
+    width: 70%
 }

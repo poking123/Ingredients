@@ -8,9 +8,10 @@
         <link rel="stylesheet" href="/css/index.css">
         
         <!--   Recipes     -->
-        <h1>Recipes</h1>
+        <!-- <h1>Recipes</h1> -->
 
-        <!--   List of Recipes from Database     -->
+          <!-- List of Recipes from Database     -->
+          <!--
         <table>
             <tr>
                 <th>Recipe Name</th>
@@ -18,8 +19,9 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
-            <!--   Name and list of ingredients - for each recipe in database         -->
+              Name and list of ingredients - for each recipe in database        
             <% for(var i = 0; i < recipes.length; i++) { %>
                 <tr> 
                     <td><%= recipes[i].name %></td>
@@ -32,37 +34,64 @@
                     </td>
                     <td><a href="/Edit_Recipe/<%= recipes[i]._id %>"><button type="button" class="btn btn-primary">Edit</button></a></td>
                     <td><button type="button" class="btn btn-danger deleteRecipe">Delete</button></td>
+                    <td><button class="btn btn-info makeRecipe">Make Recipe</button></td>
                     <td><input type="hidden" value="<%= recipes[i]._id %>"></td>
                 </tr>
             <% } %>
         </table>
+    -->
         
         <!--   Trying a different display with grid     -->
         
-<!--
+
         <main>
-            <h1>Recipes</h1>
-            
-            
-            <div class="recipeWrapper">
-                <h5 class="recipeName">Recipe Name</h5>
-                <% for (var i = 0; i < recipes.length; i++) { %>
-                    <p><%= recipes[i].name %></p>
-
-                    <h5>Ingredients</h5>
-                    <ul class="list-group">
-                        <% for (var j = 0; j < recipes[i].ingredients.length; j++) { %>
-                            <li class="list-group-item"><%= recipes[i].ingredients[j].quantity %>&nbsp; <%= recipes[i].ingredients[j].name %></li>
+            <h1>Inventory Tracker</h1>
+            <!-- Content -->
+            <div class="contentWrapper">
+                <!-- Inventory -->
+                <div class="inventoryWrapper">
+                    <h2>Inventory</h2>
+                    <div class="ingredientsWrapper">
+                        <ul class="list-group">
+                        <% for (var i = 0; i < inventory.ingredients.length; i++) { %>
+                            <li class="list-group-item"><%= inventory.ingredients[i].quantity %> <%= inventory.ingredients[i].name %></li>
                         <% } %>
-                    </ul>
+                        </ul>
+                    </div>
                     
-
-                <% } %>
-                
-            </div>
-            
+                </div>
+                <!-- Inventory End -->
+        
+        
+                <div class="recipeWrapper">
+                    <h2 id="recipesH1">Recipes</h2>
+                    <div class="recipes">
+                        <% for (var i = 0; i < recipes.length; i++) { %>
+                            <% if (recipes[i].name !== "Inventory") { %>
+                                <div class="recipe">
+                                    <h3>Recipe Name</h3>
+                                    <h5 class="display-4"><%= recipes[i].name %></h5>
+    
+                                    <h3>Ingredients</h3>
+                                    <div class="ingredientsWrapper">
+                                        <ul class="list-group">
+                                            <% recipes[i].ingredients.forEach(function(ing) { %>
+                                                <li class="list-group-item"><%= ing.quantity %> <%= ing.name %></li>
+                                            <% }); %>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <!-- Recipes End -->
+                </div>
+                <!-- Recipe Wrapper End  -->
+            </div> 
+            <!--  Content End-->
         </main>
--->
+
         
         
         
