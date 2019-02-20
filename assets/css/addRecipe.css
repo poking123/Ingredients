@@ -1,29 +1,42 @@
 /* ingredient input */
-#ingredientInput {
+#ingredientInputWrapper {
     display: grid;
-    grid-template-columns: 320px 280px minmax(0px, 180px);
+    grid-template-columns: 320px 280px 150px minmax(0px, 180px);
+    /* grid-template-rows: repeat(4, 1fr); */
     grid-column-gap: 0;
     justify-items: start;
     min-width: 60%;
 }
+
+/* No Quantity Label */
+#noQuantityLabel {
+    border-bottom: 1px dotted black;
+}
+
 
 /* Error Spans */
 span#recipeNameError{
     display: inline;
 }
 
-#ingredientInput #ingredientNameInput span#nameError{
+#ingredientInput #ingredientNameInputWrapper span#nameError{
     display: block;
     text-align: right;
 }
 
-#ingredientInput #quantityInput span#quantityError{
+#ingredientInput #quantityInputWrapper span#quantityError{
     display: block;
     text-align: right;
 }
 
 #recipeNameError {
     display:block;
+}
+/* Error Spans End */
+
+/* <p> on Ingredients List - display: none; */
+p.displayNone {
+    display: none !important;
 }
 
 /* X Button to Delete Ingredients*/

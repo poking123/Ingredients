@@ -1,19 +1,58 @@
 $(document).ready(function(){
     
+    // No Quantity Checkmark - Checked
+    // Gray Out Quantity Input
+    $('#noQuantityInput').on('change', function(e) {
+        var noQuantityCheckbox = e.target;
+        var quantityInput = document.querySelector('#quantityInput');// get input
+        if (noQuantityCheckbox.checked) { // Is Checked
+            // Clear out Quantity Input, Gray it out, and don't let people type in it
+            quantityInput.style.backgroundColor = 'gray';
+            quantityInput.disabled = true;
+            quantityInput.value = '';
+
+            // remove errors
+            quantityInput.style.borderColor = 'black';
+            quantityError.style.display = 'none';
+            quantityLabel.style.color = 'black';
+        } else { //Is Not Checked
+            quantityInput.style.backgroundColor = 'white';
+            quantityInput.disabled = false;
+        }
+    });
+
     // on click to add ingredient
     $('button.addIngredient').on('click', function(e) {
-        var ingredientNameInput = document.querySelector('input#ingredientName');
+        var ingredientNameInput = document.querySelector('input#ingredientNameInput');
         var ingredientName = ingredientNameInput.value;
-        var quantityInput = document.querySelector('input#quantity');
+        var quantityInput = document.querySelector('input#quantityInput');
         var quantity = Number(quantityInput.value);
+        var noQuantityInput = document.querySelector('input#noQuantityInput');
+
+        var hasName = false;
+        if (ingredientName !== '' && ingredientName !== null) {
+            hasName = true;
+        }
+
+        var noQuantity = false;
+        if (noQuantityInput.checked) {
+           noQuantity = true; 
+        }
+            
+        var hasQuantity = false;
+        if (quantity > 0) {
+            hasQuantity = true;
+        }
+
         
         // checking that the ingredient name is not empty
         // and the quantity is greater than 0
-        if (ingredientName !== '' && ingredientName !== null && quantity > 0) {
+        if (hasName && (hasQuantity || noQuantity)) { // No Error
             
             var ingredient = {
                 name: ingredientName,
-                quantity: quantity
+                quantity: quantity,
+                noQuantity: noQuantity
             };
 
 
@@ -35,7 +74,7 @@ $(document).ready(function(){
             // No Input for Ingredient Name
             var nameError = document.getElementById('nameError');
             var ingredientlabel = document.getElementById('ingredientNameLabel');
-            if (ingredientName === '' || ingredientName === null) {
+            if (!hasName) {
                 // red border
                 ingredientNameInput.style.borderColor = 'red';
                 // red error message (span)
@@ -52,7 +91,7 @@ $(document).ready(function(){
             // Quantity Input 0 or less
             var quantityError = document.getElementById('quantityError');
             var quantityLabel = document.getElementById('quantityLabel');
-            if (quantity <= 0) {
+            if (!noQuantity && !hasQuantity) {
                 // red border
                 quantityInput.style.borderColor = 'red';
                 // red error message (span)
@@ -112,12 +151,14 @@ $(document).ready(function(){
         lis.forEach(function(li) {
             // order of <p> in li
             // 0 - quantity
-            // 1 - name
-            // 2 - X
+            // 1 - noQuantity
+            // 2 - name
+            // 3 - X
             
             var ingredient = {
-                name: li.children[1].innerText,
-                quantity: Number(li.children[0].innerText)
+                name: li.children[2].innerText,
+                quantity: Number(li.children[0].innerText),
+                noQuantity: (li.children[1].innerText === 'true')
             };
             ingredients.push(ingredient);
         });
@@ -145,7 +186,6 @@ $(document).ready(function(){
             data: JSON.stringify({recipeName: recipeName.value}),
             contentType: 'application/json',
             success: function(nameAlreadyExists) {
-                console.log(nameAlreadyExists);
                 if (!nameAlreadyExists && hasName && hasIngredients) {
                     addRecipe(recipe); // Add Recipe - Ajax Call
                     return false;
@@ -195,7 +235,7 @@ $(document).ready(function(){
     });
     
     // Quantity Input Restrictions
-    var quantity = document.getElementById('quantity');
+    var quantity = document.getElementById('quantityInput');
     var noDash = function(e) {
         if (e.key === '-' || e.key === '+') {
             e.preventDefault();

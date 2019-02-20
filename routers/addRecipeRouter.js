@@ -16,12 +16,15 @@ router.get('/', function(req, res) {
 router.post('/ingredient/add', function(req, res) {
     var ingredientName = req.body.name;
     var quantity = req.body.quantity;
-
-    ingredientName = pluralize.ingredientPlurality(ingredientName, quantity);
+    var noQuantity = req.body.noQuantity;
+    if (!noQuantity) {
+        ingredientName = pluralize.ingredientPlurality(ingredientName, quantity);
+    }
 
     var ingredient = {
         name: ingredientName,
-        quantity: quantity
+        quantity: quantity,
+        noQuantity: noQuantity
     };
         
     ingredientsList.push(ingredient);

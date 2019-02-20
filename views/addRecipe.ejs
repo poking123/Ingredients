@@ -11,23 +11,30 @@
         <h1>Add Recipe</h1>
         <form>
             <label id="recipeNameLabel">Recipe Name:</label>
-            <input type="text" name="recipeName" id="recipeName">
+            <input type="text" name="recipeName" id="recipeNameInput">
             <span id="recipeNameError"></span>
             <br><br>
 
-            <div id="ingredientInput">
+            <div id="ingredientInputWrapper">
                 <!--    Ingredient Name Input        -->
-                <div id="ingredientNameInput">
+                <div id="ingredientNameInputWrapper">
                     <label id="ingredientNameLabel">Ingredient Name:</label>
-                    <input type="text" name="ingredientName" id="ingredientName">
+                    <input type="text" name="ingredientName" id="ingredientNameInput">
                     <span id="nameError"></span>
                 </div>
 
                 <!--    Quantity Input        -->
-                <div id="quantityInput">
+                <div id="quantityInputWrapper">
                     <label id="quantityLabel">Quantity:</label>
-                    <input type="number" name="quantity" id="quantity" min="0">
+                    <input type="number" name="quantity" id="quantityInput" min="0">
                     <span id="quantityError"></span>
+                </div>
+
+                <div id="noQuantityInputWrapper">
+                    <label id="noQuantityLabel" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">
+                        No Quantity:
+                    </label>
+                    <input type="checkbox" id="noQuantityInput">
                 </div>
                 
                 <!--    Add Ingredient Button            -->
@@ -36,16 +43,29 @@
                 </div>
                 
             </div>
+            <!-- End Ingredient Input Wrapper -->
 
             <span id="ingredientListError"></span>
 
             <!--    List of Added Ingredients            -->
             <ul class="ingredients">
                 <% for(var i = 0; i < ingredientsList.length; i++) { %>
-                <li><p><%= ingredientsList[i].quantity%></p>
-                    <p><%=ingredientsList[i].name %></p>
-                    <p class="xButton">&nbsp;&nbsp;X</p>
-                </li>
+                    <% if (!ingredientsList[i].noQuantity) { %>
+                        <li>
+                            <p><%= ingredientsList[i].quantity%></p>
+                            <p class="displayNone"><%= ingredientsList[i].noQuantity%></p>
+                            <p><%=ingredientsList[i].name %></p>
+                            <p class="xButton">&nbsp;&nbsp;X</p>
+                        </li>
+                    <% } else { %>
+                            <li>    
+                                <p class="displayNone"><%= ingredientsList[i].quantity%></p>
+                                <p class="displayNone"><%= ingredientsList[i].noQuantity%></p>
+                                <p><%=ingredientsList[i].name %></p>
+                                <p class="xButton">&nbsp;&nbsp;X</p>
+                            </li>
+                    <% } %>
+                    
                 <% } %>
             </ul>
 

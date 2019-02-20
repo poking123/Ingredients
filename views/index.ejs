@@ -61,7 +61,7 @@
                     
                 </div>
                 <!-- Inventory End -->
-        
+                
         
                 <div class="recipeWrapper">
                     <h2 id="recipesH1">Recipes</h2>
@@ -76,7 +76,12 @@
                                     <div class="ingredientsWrapper">
                                         <ul class="list-group">
                                             <% recipes[i].ingredients.forEach(function(ing) { %>
-                                                <li class="list-group-item"><%= ing.quantity %> <%= ing.name %></li>
+                                                <% if (!ing.noQuantity) { %>
+                                                    <li class="list-group-item"><%= ing.quantity %> <%= ing.name %></li>
+                                                <% } else { %>
+                                                    <li class="list-group-item"><%= ing.name %></li>
+                                                <% } %>
+                                                
                                             <% }); %>
                                         </ul>
                                     </div>
