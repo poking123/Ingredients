@@ -9,6 +9,19 @@ main div.contentWrapper {
     align-content: center;
 }
 
+/* Styles for Input once LI is clicked */
+div.ingredientsWrapper ul li input {
+    width: 50%;
+    text-align: center;
+    border: 1.5px solid black
+}
+
+/* Styles for buttons once LI is clicked */
+div.ingredientsWrapper ul li button.delete {
+    /* height:20px;
+    width:20px; */
+}
+
 /* Allows us to center ingredients in any column (inventory or recipe) */
 main div.ingredientsWrapper {
     display: grid;

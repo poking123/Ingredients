@@ -6,6 +6,7 @@
         
         <%- include navbar.ejs %>
         <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/recipe.css">
         
         <!--   Recipes     -->
         <!-- <h1>Recipes</h1> -->
@@ -55,7 +56,6 @@
                         <ul class="list-group">
                         <% for (var i = 0; i < inventory.ingredients.length; i++) { %>
                             <li class="list-group-item"><%= inventory.ingredients[i].quantity %> <%= inventory.ingredients[i].name %></li>
-                            <input type="checkbox" hidden>
                         <% } %>
                         </ul>
                     </div>
@@ -65,7 +65,7 @@
                 
         
                 <div class="recipeWrapper">
-                    <h2 id="recipesH1">Recipes</h2>
+                    <h2 id="recipesH2">Recipes</h2>
                     <!-- Dropdown Start -->
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -78,28 +78,40 @@
                                 <% } %>
                             <% } %>
                         </div>
-                    </div>
+                    </div><br>
                     <!-- Dropdown End -->
 
-                    <!-- <% if (typeof currRecipe !== 'undefined') { %>
+                    <% if (currRecipe !== null) { %>
                         <h3>Recipe Name:</h3>
-                        <p><%= currRecipe.name %></p>
+                        <% if (canMakeResult.canMake) { %>
+                            <p id="recipeName" class="canMake"><%= currRecipe.name %></p>
+                        <% } else { %>
+                            <p id="recipeName" class="cannotMake"><%= currRecipe.name %></p>
+                        <% } %>
 
                         <h3>Ingredients</h3>
                         <div class="ingredientsWrapper">
                             <ul class="list-group">
-                                <% currRecipe.ingredients.forEach(function(ing) { %>
-                                    <% if (!ing.noQuantity) { %>
-                                        <li class="list-group-item"><%= ing.quantity %> <%= ing.name %></li>
+                                <% for (var i = 0; i < currRecipe.ingredients.length; i++) { %> 
+                                    <% if (canMakeResult.hasEnoughIngredient[i]) { %>
+                                        <% if (!currRecipe.ingredients[i].noQuantity) { %>
+                                            <li class="list-group-item canMake"><%= currRecipe.ingredients[i].quantity %> <%= currRecipe.ingredients[i].name %></li>
+                                        <% } else { %>
+                                            <li class="list-group-item canMake"><%= currRecipe.ingredients[i].name %></li>
+                                        <% } %>
+
                                     <% } else { %>
-                                        <li class="list-group-item"><%= ing.name %></li>
+                                        <% if (!currRecipe.ingredients[i].noQuantity) { %>
+                                            <li class="list-group-item cannotMake"><%= currRecipe.ingredients[i].quantity %> <%= currRecipe.ingredients[i].name %> (Misssing <%= canMakeResult.ingredientDifference[i] %>)</li>
+                                        <% } else { %>
+                                            <li class="list-group-item cannotMake"><%= currRecipe.ingredients[i].name %> (Missing)</li>
+                                        <% } %>
                                     <% } %>
-                                    
-                                <% }); %>
+                                <% } %>
                             </ul>
                         </div>
 
-                    <% } %> -->
+                    <% } %>
 
                     <!-- <div class="recipes">
                         <% for (var i = 0; i < recipes.length; i++) { %>

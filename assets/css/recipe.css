@@ -1,0 +1,12 @@
+p#recipeName {
+    font-weight:650;
+}
+
+/* Coloring based on whether we can or cannot make a recipe */
+.canMake {
+    color:green
+}
+
+.cannotMake {
+    color: red
+}

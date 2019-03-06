@@ -15,19 +15,42 @@ router.get('/', function(req, res) {
 // Add Ingredient
 router.post('/ingredient/add', function(req, res) {
     var ingredientName = req.body.name;
+    // IN = ingredient name
+    var singularIN = pluralize.pluralize.singular(ingredientName);
+    var pluralIN = pluralize.pluralize(ingredientName);
     var quantity = req.body.quantity;
     var noQuantity = req.body.noQuantity;
+
+    var alreadyExists = false;
+
     if (!noQuantity) {
         ingredientName = pluralize.ingredientPlurality(ingredientName, quantity);
     }
 
-    var ingredient = {
-        name: ingredientName,
-        quantity: quantity,
-        noQuantity: noQuantity
-    };
-        
-    ingredientsList.push(ingredient);
+    for (var i = 0; i < ingredientsList.length; i++) {
+        // IN = ingredient name
+        if (ingredientsList[i].name === singularIN || ingredientsList[i].name === pluralIN) {
+            alreadyExists = true;
+
+            if (noQuantity || ingredientsList[i].noQuantity) {
+                ingredientsList[i].noQuantity = true;
+            } else {
+                ingredientsList[i].quantity += quantity;
+            }
+
+        }
+    }
+
+    if (!alreadyExists) {
+        var ingredient = {
+            name: ingredientName,
+            quantity: quantity,
+            noQuantity: noQuantity
+        };
+            
+        ingredientsList.push(ingredient);
+    }
+    
     res.send(ingredient);
 });
 
