@@ -51,11 +51,18 @@
                 <!-- Inventory -->
                 <div class="inventoryWrapper">
                     <h2>Inventory</h2>
-                    <div class="ingredientsWrapper">
+                    <input type="text" value="<%= inventory._id %>" id="recipeID" hidden>
+                    <input type="text" value="<%= inventory.name %>" id="recipeName" hidden>
+                    <div class="inventoryIngredientsWrapper">
                         <ul class="list-group">
                         <% for (var i = 0; i < inventory.ingredients.length; i++) { %>
-                            <li class="list-group-item"><%= inventory.ingredients[i].quantity %> <%= inventory.ingredients[i].name %></li>
-                            <input type="checkbox" hidden>
+                            <% if (inventory.ingredients[i].noQuantity) { %>
+                                <li class="list-group-item"><%= inventory.ingredients[i].name %></li>
+                            <% } else { %>
+                                <li class="list-group-item"><%= inventory.ingredients[i].quantity %> <%= inventory.ingredients[i].name %></li>
+                            <% } %>
+                            
+                            <input type="checkbox" class="<%= inventory.name %>" hidden>
                         <% } %>
                         </ul>
                     </div>

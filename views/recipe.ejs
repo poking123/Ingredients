@@ -52,10 +52,17 @@
                 <!-- Inventory -->
                 <div class="inventoryWrapper">
                     <h2>Inventory</h2>
-                    <div class="ingredientsWrapper">
+                    <input type="text" value="<%= inventory._id %>" hidden>
+                    <input type="text" value="<%= inventory.name %>" id="recipeName" hidden>
+                    <div class="inventoryIngredientsWrapper">
                         <ul class="list-group">
                         <% for (var i = 0; i < inventory.ingredients.length; i++) { %>
-                            <li class="list-group-item"><%= inventory.ingredients[i].quantity %> <%= inventory.ingredients[i].name %></li>
+                            <% if (inventory.ingredients[i].noQuantity) { %>
+                                <li class="list-group-item"><%= inventory.ingredients[i].name %></li>
+                            <% } else { %>
+                                <li class="list-group-item"><%= inventory.ingredients[i].quantity %> <%= inventory.ingredients[i].name %></li>
+                            <% } %>
+                            <input type="checkbox" class="<%= inventory.name %>" hidden>
                         <% } %>
                         </ul>
                     </div>
@@ -102,11 +109,12 @@
 
                                     <% } else { %>
                                         <% if (!currRecipe.ingredients[i].noQuantity) { %>
-                                            <li class="list-group-item cannotMake"><%= currRecipe.ingredients[i].quantity %> <%= currRecipe.ingredients[i].name %> (Misssing <%= canMakeResult.ingredientDifference[i] %>)</li>
+                                            <li class="list-group-item cannotMake"><%= currRecipe.ingredients[i].quantity %> <%= currRecipe.ingredients[i].name %> (Missing <%= canMakeResult.ingredientDifference[i] %>)</li>
                                         <% } else { %>
                                             <li class="list-group-item cannotMake"><%= currRecipe.ingredients[i].name %> (Missing)</li>
                                         <% } %>
                                     <% } %>
+                                    <input type="checkbox" class="<%= currRecipe.name %>" hidden>
                                 <% } %>
                             </ul>
                         </div>

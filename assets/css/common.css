@@ -12,9 +12,10 @@ nav {
 
 body {
     background-image: url('../img/restaurant.png');
-    background-size: 100% auto;
+    background-size: cover;
+    /* background-size: 100% auto; */
     background-repeat: repeat-y;
-    height: 100%;
+    min-height: 100%;
 }
 
 input {

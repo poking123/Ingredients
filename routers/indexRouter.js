@@ -18,7 +18,6 @@ router.get('/', function(req, res) {
 			};
 			
 			res.render('index', {
-				ingredientsList: ingredientsList,
 				recipes: recipes,
 				inventory: inventory
 			});
@@ -157,7 +156,18 @@ router.post('/checkInventory/:recipeID', function(req, res) {
 	});
 });
 
-
+// Updates Recipe
+router.post('/recipe/update', function(req, res) { // NEED TO CHECK PLURALIZE
+	var recipeID = req.body.ID;
+	var ingredients = req.body.ingredients;
+	var query = { _id: recipeID };
+	var update = { $set: {ingredients: ingredients } };
+	ingredientModel.updateOne(query, update, function(err) {
+		if (err) {
+			res.status(500).send(err);
+		};
+	});
+});
 
 
 

@@ -9,15 +9,17 @@ $(document).ready(function(){
             // Clear out Quantity Input, Gray it out, and don't let people type in it
             quantityInput.style.backgroundColor = 'gray';
             quantityInput.disabled = true;
+            sessionStorage.setItem('ingredientQuantity', quantityInput.value);
             quantityInput.value = '';
 
             // remove errors
             quantityInput.style.borderColor = 'black';
             quantityError.style.display = 'none';
             quantityLabel.style.color = 'black';
-        } else { //Is Not Checked
+        } else { // Is Not Checked
             quantityInput.style.backgroundColor = 'white';
             quantityInput.disabled = false;
+            quantityInput.value = sessionStorage.getItem('ingredientQuantity');
         }
     });
 
@@ -48,7 +50,9 @@ $(document).ready(function(){
         // checking that the ingredient name is not empty
         // and the quantity is greater than 0
         if (hasName && (hasQuantity || noQuantity)) { // No Error
-            
+            // Clears the SessionStorage of the ingredientQuantity
+            sessionStorage.removeItem('ingredientQuantity');
+
             var ingredient = {
                 name: ingredientName,
                 quantity: quantity,

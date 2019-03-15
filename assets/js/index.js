@@ -43,8 +43,7 @@ $(document).ready(function(){
     // })
 
     // Click Ingredient LI to Edit
-    $('div.ingredientsWrapper ul li').on('click', function(e) {
-        
+    $('div.inventoryIngredientsWrapper ul li').on('click', function(e) {
         // if the click hits the input, do nothing
         
         // Checkbox
@@ -65,7 +64,7 @@ $(document).ready(function(){
                 checkbox.checked = true;
     
                 var text = e.target.innerText;
-                localStorage.setItem('originalText', text); // saves original text to local storage
+                sessionStorage.setItem('originalText', text); // saves original text to session storage
                 e.target.innerText = '';
                 
                 // Text Input
@@ -83,19 +82,36 @@ $(document).ready(function(){
         
     });
 
-    function clickOutside(e, tag) {
+    // returns true if the click was outside the <tag>
+    // returns false if the click 
+    function isOutsideClick(e, tag) {
         if (e.target == tag) {
                 return false;
         }
         return true;
     }
 
+    // Update Recipe - Ajax Call
+    var updateRecipeAJAX = function(recipe) {
+        $.ajax({
+            type: 'POST',
+            url: '/recipe/update',
+            data: JSON.stringify(recipe),
+            contentType: 'application/json',
+            success: function(data){
+                location.reload();
+            }
+        });
+    }
+
+    // goes through all checkboxes and unchecks them
+    // re-adds recipe if the ingredient is verified
     var uncheckAll = function() {
         // get all LI
-        var LIs = document.querySelectorAll('div.ingredientsWrapper ul li');
+        var LIs = document.querySelectorAll('div.inventoryIngredientsWrapper ul li');
 
         // get corresponding checkboxes
-        var checkboxes = document.querySelectorAll('div.ingredientsWrapper ul input[type="checkbox"]');
+        var checkboxes = document.querySelectorAll('div.inventoryIngredientsWrapper ul input[type="checkbox"]');
 
         // going through all checkboxes to remove input if checked
         for (var i = 0; i < checkboxes.length; i++) {
@@ -109,7 +125,7 @@ $(document).ready(function(){
                 var li = LIs[i];
                 var input = li.firstChild;
                 var text = input.value;
-                var originalText = localStorage.getItem('originalText');
+                var originalText = sessionStorage.getItem('originalText');
 
                 // remove input
                 input.remove();
@@ -118,27 +134,72 @@ $(document).ready(function(){
                 text = text.trim();
                 
                 var regex = /^(\d+\s+)?\D+$/;
-                console.log(regex.test(text));
+                
+                var validated = regex.test(text);
+                li.innerText = (validated) ? text : originalText;
 
-                li.innerText = (regex.test(text)) ? text : originalText;
+                if (validated) { // update database if input is valud
+                    // re-add recipe to database
+                    
+                    // get recipeID
+                    var recipeID = document.querySelector('div.inventoryWrapper input').value;
 
-                // update database if input is valud
+                    // get recipe name
+                    var recipeName = document.getElementById('recipeName');
+
+                    // make ingredients list
+                    var ingredients = [];
+
+                    // LIs
+                    var LIs = document.querySelectorAll('div.inventoryIngredientsWrapper ul li');
+                    for (var i = 0; i < LIs.length; i++) {
+                        var text = LIs[i].innerText;
+                        text = text.split(' ');
+                        if (text.length === 2) {
+                            var ingredient = {
+                                name: text[1],
+                                quantity: text[0],
+                                noQuantity: false
+                            };
+                        } else {
+                            var ingredient = {
+                                name: text[0],
+                                quantity: 0,
+                                noQuantity: true
+                            };
+                        }
+                        ingredients.push(ingredient);
+                    }
+
+                    // recipe
+                    var recipe = {
+                        ID: recipeID,
+                        ingredients: ingredients
+                    };
+                    
+                    // AJAX request to update recipe
+                    updateRecipeAJAX(recipe);
+                    
+                }
+
+                
 
             }
         }
     };
 
+    
+
+    // clicking anywhere in the document
+    // will uncheckAll() if anything is checked
     document.addEventListener('click', function(e) {
-        var children = document.querySelectorAll('div.ingredientsWrapper ul *');
+        var children = document.querySelectorAll('div.inventoryIngredientsWrapper ul *');
 
         var uncheck = true;
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
             if (uncheck) {
-                if (clickOutside(e, child)) {
-                    console.log('outside click');
-                    // uncheckAll();
-                } else {
+                if (!isOutsideClick(e, child)) {
                     uncheck = false;
                 }
             } else {
@@ -151,6 +212,13 @@ $(document).ready(function(){
         }
 
         
+    });
+
+    document.addEventListener('keyup', function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            uncheckAll();
+        }
     });
  
 });

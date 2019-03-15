@@ -3,16 +3,41 @@ var router = express.Router();
 var pluralize = require('../lib/pluralize');
 var ingredientModel = require('../models/ingredientModel');
 
+
+// Get Choose Edit Recipe Page
+router.get('/', function(req, res) {
+	// get data from mongodb and pass it to the view
+	ingredientModel.find({}, function(err, recipes) {
+		if (err) {
+			res.status(500).send(err);
+		};
+        
+        res.render('chooseEditRecipe', {
+            recipes: recipes,
+        });
+	});
+});
+
+
 // Edit Recipe
-router.get('/:recipeID', function(req, res) {
+router.get('/recipe/:recipeID', function(req, res) {
   // get data from mongodb and pass it to the view
-  ingredientModel.find({_id: req.params.recipeID}, function(err, data) {
+  ingredientModel.findOne({_id: req.params.recipeID}, function(err, data) {
     if (err) {
         res.status(500).send(err);
     };
-      res.render('editRecipe', {
-          recipe: data
-      });
+
+    ingredientModel.find({}, function(err, recipes) {
+		if (err) {
+			res.status(500).send(err);
+		};
+        
+        res.render('editRecipe', {
+            recipe: data,
+            recipes: recipes
+        });
+	});
+
   });
 });
 
