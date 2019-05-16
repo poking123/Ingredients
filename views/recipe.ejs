@@ -51,6 +51,7 @@
             <div class="contentWrapper">
                 <!-- Inventory -->
                 <div class="inventoryWrapper">
+                    <% if (inventory !== null) { %>
                     <h2>Inventory</h2>
                     <input type="text" value="<%= inventory._id %>" hidden>
                     <input type="text" value="<%= inventory.name %>" id="recipeName" hidden>
@@ -66,7 +67,10 @@
                         <% } %>
                         </ul>
                     </div>
-                    
+                    <% } else { %>
+                        <h2>Oops. There's nothing in your inventory.</h2>
+                        <p>To add an inventory, go to Add Recipe and add a recipe with the name "Inventory".</p>
+                    <% } %>
                 </div>
                 <!-- Inventory End -->
                 
