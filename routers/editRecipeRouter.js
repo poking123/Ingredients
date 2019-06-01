@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pluralize = require('../lib/pluralize');
-var ingredientModel = require('../models/ingredientModel');
+var ingredientModel = require('../models/RecipeModel');
 
 
 // Get Choose Edit Recipe Page

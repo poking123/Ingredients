@@ -2,7 +2,7 @@
   "name": "ingredients",
   "version": "1.0.0",
   "description": "Keeps tracks of ingredients and tells you what recipes you can make",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha"
   },
@@ -13,6 +13,7 @@
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
     "bower": "^1.8.8",
+    "concurrently": "^4.1.0",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",

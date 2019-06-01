@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var ingredientModel = require('../models/ingredientModel');
+var ingredientModel = require('../models/RecipeModel');
 var pluralize = require('../lib/pluralize');
 
 var ingredientsList = [];
