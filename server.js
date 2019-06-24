@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
-const keys = require('./config/keys');
-const recipes = require('./routers/api/recipes');
+const keys = require(path.join(__dirname, '/config/keys'));
+const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 
 
 var app = express();
@@ -22,13 +22,7 @@ mongoose.connect(db, { useNewUrlParser: true })
 // Body-parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.set('view engine', 'ejs');
-app.use(express.static('./client/src/assets'));
-
-// Use all the routers in the app
-// app.use('/', indexRouter);
-// app.use('/Add_Recipe', addRecipeRouter);
-// app.use('/Edit_Recipe', editRecipeRouter);
+app.use(express.static(path.join(__dirname, '/client/public/')));
 
 app.use('/api/recipes', recipes);
 

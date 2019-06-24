@@ -248,11 +248,11 @@ $(document).ready(function(){
     // Do Not Allow User to Enter '-' in quantity input
     quantity.addEventListener('keydown', noDash);
     
-    var noDashPaste = function(e) {
-        if (e.clipboardData.getData('text').includes('-') || e.clipboardData.getData('text').includes('+')) {
-            e.preventDefault();
-        }
-    };
+        var noDashPaste = function(e) {
+            if (e.clipboardData.getData('text').includes('-') || e.clipboardData.getData('text').includes('+')) {
+                e.preventDefault();
+            }
+        };
     // Do Not Allow User to Paste '-' in quantity input
     quantity.addEventListener('paste', noDashPaste);    
 });
