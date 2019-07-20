@@ -1,9 +1,19 @@
 import React from 'react';
 
-const EditRecipe = () => {
-    return (
-        <div>Edit Recipe Page</div>
-    )
+class EditRecipe extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            recipe: []
+        };
+    }
+
+    render() {
+        return (
+            <div id="EditRecipeContainer"></div>
+        )
+    }
+    
 }
 
 

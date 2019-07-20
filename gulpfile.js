@@ -14,7 +14,7 @@ function styles(cb) {
     return src('./assets/scss/**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCSS())
-        .pipe(dest('./client/src/assets/css/'))
+        .pipe(dest('./client/public/css'))
 }
 
 exports.styles = styles;

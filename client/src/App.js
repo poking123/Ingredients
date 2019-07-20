@@ -4,6 +4,9 @@ import Home from './components/Home';
 import { Route } from 'react-router-dom';
 import AddRecipe from './components/AddRecipe/AddRecipe';
 import EditRecipe from './components/EditRecipe/EditRecipe';
+import ChooseRecipe from './components/EditRecipe/ChooseRecipe';
+import 'jquery';
+import 'bootstrap';
 
 function App() {
   return (
@@ -11,7 +14,7 @@ function App() {
       <Navbar />
       <Route exact path='/' component={Home} />
       <Route path='/Add_Recipe' component={AddRecipe} />
-      <Route path='/Edit_Recipe' component={EditRecipe} />
+      <Route path='/Edit_Recipe' component={ChooseRecipe} />
     </div>
   );
 }

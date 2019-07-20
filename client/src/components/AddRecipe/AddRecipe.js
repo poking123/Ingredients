@@ -82,7 +82,6 @@ class AddRecipe extends React.Component {
 
         
         var ingredientName = this.state.ingredientName;
-        var quantityInput = document.querySelector('input#quantityInput');
         var quantity = this.state.quantity;
         var noQuantity = this.state.noQuantityInput;
 
@@ -153,7 +152,6 @@ class AddRecipe extends React.Component {
     }
 
     handleRecipeNameError = (nameAlreadyExists) => {
-        const recipeNameInput = document.getElementById('recipeNameInput');
         const recipeNameLabel = document.getElementById('recipeNameLabel');
         const recipeNameSpan = document.getElementById('recipeNameError');
         const recipeName = document.getElementById('recipeNameInput');
