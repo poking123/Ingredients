@@ -32,21 +32,21 @@
             <h3 id="noQuantityH3">No Quantity</h3>
         </div>
                 
-        <div class="ingredientsWrapper">
-            <% for (var i = 0; i < recipe.ingredients.length; i++) { %>
-                <div class="ingredientRow">
-                    <input type="text" class="ingredientName" value="<%= recipe.ingredients[i].name %>">
-                    <input type="number" class="ingredientQuantity" value="<%= recipe.ingredients[i].quantity %>" min="0">
-                    <% if (recipe.ingredients[i].noQuantity) { %>
-                        <input type="checkbox" class="ingredientNoQuantity" checked>
-                    <% } else { %>
-                        <input type="checkbox" class="ingredientNoQuantity">
-                    <% } %>
-                    <input type="text" value="<%= recipe.ingredients[i].id %>" hidden>
-                    <button type="button" class="btn btn-danger deleteRow">Delete</button>
-                </div>
-            <% } %>
-        </div>
+            <div class="ingredientsWrapper">
+                <% for (var i = 0; i < recipe.ingredients.length; i++) { %>
+                    <div class="ingredientRow">
+                        <input type="text" class="ingredientName" value="<%= recipe.ingredients[i].name %>">
+                        <input type="number" class="ingredientQuantity" value="<%= recipe.ingredients[i].quantity %>" min="0">
+                        <% if (recipe.ingredients[i].noQuantity) { %>
+                            <input type="checkbox" class="ingredientNoQuantity" checked>
+                        <% } else { %>
+                            <input type="checkbox" class="ingredientNoQuantity">
+                        <% } %>
+                        <input type="text" value="<%= recipe.ingredients[i].id %>" hidden>
+                        <button type="button" class="btn btn-danger deleteRow">Delete</button>
+                    </div>
+                <% } %>
+            </div>
         
         <br><br>
         <button type="button" class="btn btn-info editRecipe">Save</button>

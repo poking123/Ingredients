@@ -10,9 +10,12 @@ var app = express();
 
 // connect to the database
 const db = keys.mongoURI;
-mongoose.connect(db, { useNewUrlParser: true })
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB Connected...'))
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log('MongoDB Not Connected!!!');
+        console.log(err);
+    });
 
 // Require all the routers
 // var indexRouter = require('./routers/indexRouter');

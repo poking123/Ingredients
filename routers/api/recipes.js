@@ -12,7 +12,16 @@ router.get('/', (req, res) => {
         .then(items => res.json(items))
 });
 
-// @route   POST api/recipes
+// @route   GET api/recipes/:id
+// @desc    Get one Recipes
+// @access  Public
+router.get('/:id', (req, res) => {
+    const recipeId = req.params.id;
+    Recipe.find({_id: recipeId})
+        .then(items => res.json(items))
+});
+
+// @route   POST api/recipes/addRecipe
 // @desc    Create a Recipe
 // @access  Public
 router.post('/addRecipe', (req, res) => {
@@ -24,10 +33,10 @@ router.post('/addRecipe', (req, res) => {
     newRecipe.save().then(recipe => res.json(recipe));
 });
 
-// @route   DELETE api/recipes/:id
+// @route   DELETE api/recipes/:deleteRecipe/:id
 // @desc    Delete a Recipe
 // @access  Public
-router.post('/deleteRecipe', (req, res) => {
+router.post('/deleteRecipe/:id', (req, res) => {
     Item.findById(req.params.id)
     .then(recipe => recipe.remove().then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
