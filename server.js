@@ -9,8 +9,15 @@ const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 var app = express();
 
 // connect to the database
-const db = keys.mongoURI;
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+// const db = keys.mongoURI;
+const db = keys.localMongoURI;
+var settings = {
+    reconnectTries : Number.MAX_VALUE,
+    autoReconnect : true,
+    useNewUrlParser: true, 
+    useUnifiedTopology: true
+};
+mongoose.connect(db, settings)
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => {
         console.log('MongoDB Not Connected!!!');
