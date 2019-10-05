@@ -1,3 +1,11 @@
+#chooseRecipeContainer {
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}
+
 /* H1 that says Edit Recipe */
 h1#editRecipeH1 {
     margin: 2.5% auto 0 auto;
@@ -8,6 +16,10 @@ h1#editRecipeH1 {
 div.dropdown {
     margin: 1% auto 0 auto;
     text-align: center;
+}
+
+#editRecipeContainer {
+    width: 82%;
 }
 
 /* Input Recipe Name */
@@ -30,7 +42,6 @@ div.headerWrapper {
 div.ingredientRow {
     display:grid;
     grid-template-columns: 300px 170px 200px 100px;
-    
 }
 
 /* Holds all the ingredients  */
@@ -43,12 +54,20 @@ div.ingredientsWrapper {
 
 input.ingredientName {
     width: 75%;
-    text-align:center
+    text-align: center;
 }
 
 input.ingredientQuantity {
     width: 50%;
-    text-align:center
+    text-align: center;
+
+    &.hasQuantity {
+        background-color: white;
+    }
+
+    &.noQuantity {
+        background-color: gray;
+    }
 }
 
 input.ingredientNoQuantity {
@@ -58,7 +77,7 @@ input.ingredientNoQuantity {
 /* Save Button */
 button.editRecipe {
     display: block;
-    margin: 0 7% 0 auto;
+    margin: 4% 7% 0 auto;
 }
 
 .test {

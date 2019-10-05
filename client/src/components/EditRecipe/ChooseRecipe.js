@@ -1,8 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
-import EditRecipeRow from './EditRecipeRow';
+import EditRecipeRows from './EditRecipeRows';
 import { Link } from "react-router-dom";
 import SelectSearch from 'react-select-search';
+import { runInThisContext } from 'vm';
 
 class ChooseRecipe extends React.Component {
     constructor(props) {
@@ -12,16 +13,116 @@ class ChooseRecipe extends React.Component {
             isLoaded: false,
             recipes: [],
             recipeId: null,
-            recipe: null
+            recipe: null,
+            editRecipeName: null,
+            editRecipeIngredients: []
         };
     }
 
-    handleChange = () => {
-        this.setState({
-            recipeId: document.querySelector('input[name=recipe]').value
+    componentDidMount() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/recipes/',
+            contentType: 'application/json',
+            success: recipes => {
+                this.setState({
+                    isLoaded: true,
+                    recipes
+                });
+            },
+            error: (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }
         });
-        // alert(document.querySelector('input[name=recipe]').value);
     }
+
+    handleChange = e => {
+        this.setState({ [e.target.name] : e.target.value });
+    }
+
+    handleSave = e => {
+        console.log('got here');
+        let editedRecipe = {
+            name: this.state.editRecipeName,
+            ingredients: this.state.editRecipeIngredients
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/recipes/updateRecipe/' + this.state.recipeId,
+            contentType: 'application/json',
+            data: JSON.stringify(editedRecipe),
+            success: recipes => {
+                window.location.href = '/';
+                console.log('updated recipe');
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
+
+    printRecipe = () => {
+        this.state.editRecipeIngredients.forEach(ing => {
+            console.log('name is', ing.name);
+            console.log('quantity is', ing.quantity);
+        });
+    }
+
+    handleEditRecipeRowChange = (e, index) => {
+        let targetName = e.target.name;
+        let newIngredientValue = e.target.value;
+        console.log('newIngredientValue is ', newIngredientValue);
+
+        
+
+        let ingredient = this.state.editRecipeIngredients[index];
+
+        let newEditRecipeIngredients = this.state.editRecipeIngredients;
+
+        if (targetName === 'ingredientName') { // find index of the ingredient name
+            ingredient.name = newIngredientValue; // ingredient name
+        } else if (targetName === 'quantity') {
+            ingredient.quantity = newIngredientValue; // ingredient quantity
+        } else if (targetName === 'noQuantity') {
+            // Important - e.target.checked is the checked value boolean before you clicked it
+            if (e.target.checked) { // going to have no quantity
+                sessionStorage.setItem(ingredient._id, ingredient.quantity);
+                ingredient.quantity = null;
+            } else { // going to have quantity
+                let ssQuantity = sessionStorage.getItem(ingredient._id);
+                if (ssQuantity === 'null') ssQuantity = null;
+                ingredient.quantity = (ssQuantity !== null) ? ssQuantity : 0;
+            }
+        }
+        newEditRecipeIngredients[index] = ingredient;
+        this.setState({editRecipeIngredients: newEditRecipeIngredients});
+    }
+
+    deleteEditRecipeIngredient = index => {
+        let newEditRecipeIngredients = this.state.editRecipeIngredients;
+        newEditRecipeIngredients.splice(index, 1);
+        this.setState({editRecipeIngredients: newEditRecipeIngredients});
+    }
+
+    addIngredientRow = () => {
+        let newEditRecipeIngredients = this.state.editRecipeIngredients;
+        newEditRecipeIngredients.push({
+            name: '',
+            quantity: 0
+        });
+        this.setState({editRecipeIngredients: newEditRecipeIngredients});
+    }
+
+    // handleChange = () => {
+    //     this.setState({
+    //         recipeId: document.querySelector('input[name=recipe]').value
+    //     });
+    //     // alert(document.querySelector('input[name=recipe]').value);
+    // }
 
     setRecipeId = () => {
         const recipeSelect = document.getElementById('recipeSelect');
@@ -48,37 +149,20 @@ class ChooseRecipe extends React.Component {
             success: recipe => {
                 this.setState({
                     isLoaded: true,
-                    recipe
+                    recipe,
+                    editRecipeName: recipe.name,
+                    editRecipeIngredients: recipe.ingredients
                 });
             },
             error: (error) => {
                 this.setState({
                     isLoaded: true,
-                    error
+                    error,
+                    editRecipeName: null,
+                    editRecipeIngredients: []
                 });
             }
         });
-    }
-
-    componentDidMount() {
-        $.ajax({
-            type: 'GET',
-            url: '/api/recipes/',
-            contentType: 'application/json',
-            success: recipes => {
-                this.setState({
-                    isLoaded: true,
-                    recipes
-                });
-            },
-            error: (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-        });
-
     }
 
     render() {
@@ -96,11 +180,6 @@ class ChooseRecipe extends React.Component {
                 return <option value={recipe._id} key={recipe._id}>{recipe.name}</option>
             });
 
-            let rows = [];
-            recipe && recipe.ingredients && recipe.ingredients.forEach(ingredient => {
-                rows.push(<EditRecipeRow ingredients={ ingredient } />);
-            });
-
             return (
                 <div id="chooseRecipeContainer">
                     <h1>Edit Recipe</h1>
@@ -114,8 +193,8 @@ class ChooseRecipe extends React.Component {
                     </div>
 
                     { this.state.recipeId && this.state.recipe &&
-                        <div id="recipeContainer">
-                            <input type="text" id="editRecipeRecipeName" value={recipe.name}></input>
+                        <div id="editRecipeContainer">
+                            <input type="text" id="editRecipeRecipeName" name="editRecipeName" value={recipe.name} onChange={e => this.handleChange(e)}></input>
 
                             <div className="headerWrapper">
                                 <h3>Ingredient Name</h3>
@@ -124,9 +203,17 @@ class ChooseRecipe extends React.Component {
                             </div>
 
                             <div className="ingredientsWrapper">
-                                { rows }
+                                <EditRecipeRows ingredients={this.state.editRecipeIngredients} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} addIngredientRow={this.addIngredientRow} />
+                                {/* Need To Add a Key Here? Getting an error. */}
+                                <div className="ingredientRow">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <button className="btn btn-success" onClick={() => this.addIngredientRow()}>Add Row</button>
+                                </div>
                             </div>
 
+                            <button type="button" className="btn btn-info editRecipe" onClick={(e) => this.handleSave(e)}>Save</button>
                             
                         </div>
                     }

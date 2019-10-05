@@ -79,7 +79,6 @@ class AddRecipe extends React.Component {
 
     addIngredient = (e) => {
         e.preventDefault();
-
         
         var ingredientName = this.state.ingredientName;
         var quantity = this.state.quantity;
@@ -256,7 +255,7 @@ class AddRecipe extends React.Component {
     
 
     render() {
-        return (<div id="AddRecipeContainer">
+        return (<div id="addRecipeContainer">
             <h1>Add Recipe</h1>
             <form>
                 <label id="recipeNameLabel">Recipe Name:</label>

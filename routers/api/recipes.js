@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 // @access  Public
 router.get('/:id', (req, res) => {
     const recipeId = req.params.id;
-    Recipe.find({_id: recipeId})
+    Recipe.findOne({_id: recipeId})
         .then(items => res.json(items))
 });
 
@@ -31,6 +31,19 @@ router.post('/addRecipe', (req, res) => {
     });
 
     newRecipe.save().then(recipe => res.json(recipe));
+});
+
+// @route   POST api/recipes/updateRecipe
+// @desc    Update a Recipe
+// @access  Public
+router.post('/updateRecipe/:id', (req, res) => {
+    let setValues = {
+        $set: {
+            name: req.body.name,
+            ingredients: req.body.ingredients
+        }
+    }
+    Recipe.updateOne({"_id": req.params.id}, setValues).then(recipe => res.json(recipe));
 });
 
 // @route   DELETE api/recipes/:deleteRecipe/:id
