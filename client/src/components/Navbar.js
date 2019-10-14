@@ -16,12 +16,6 @@ function Navbar() {
                     <li className="nav-item">
                         <Link className="nav-link" to="/Recipes">Recipes</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Add_Recipe">Add Recipe</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Edit_Recipe">Edit Recipe</Link>
-                    </li>
                 </ul>
             </div>
         </nav>
