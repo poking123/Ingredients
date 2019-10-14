@@ -1,8 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
-const keys = require(path.join(__dirname, '/config/keys'));
 const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 
 
@@ -10,7 +11,7 @@ var app = express();
 
 // connect to the database
 // const db = keys.mongoURI;
-const db = keys.localMongoURI;
+const db = process.env.LOCAL_MONGO_URI;
 var settings = {
     reconnectTries : Number.MAX_VALUE,
     autoReconnect : true,
@@ -23,11 +24,6 @@ mongoose.connect(db, settings)
         console.log('MongoDB Not Connected!!!');
         console.log(err);
     });
-
-// Require all the routers
-// var indexRouter = require('./routers/indexRouter');
-// var addRecipeRouter = require('./routers/addRecipeRouter');
-// var editRecipeRouter = require('./routers/editRecipeRouter');
 
 // Body-parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
