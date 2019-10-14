@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import EditRecipeRows from './EditRecipeRows';
+import IngredientRows from '../RecipeInput/IngredientRows';
 import { Link } from "react-router-dom";
 import SelectSearch from 'react-select-search';
 import { runInThisContext } from 'vm';
@@ -75,9 +75,6 @@ class ChooseRecipe extends React.Component {
     handleEditRecipeRowChange = (e, index) => {
         let targetName = e.target.name;
         let newIngredientValue = e.target.value;
-        console.log('newIngredientValue is ', newIngredientValue);
-
-        
 
         let ingredient = this.state.editRecipeIngredients[index];
 
@@ -196,21 +193,8 @@ class ChooseRecipe extends React.Component {
                         <div id="editRecipeContainer">
                             <input type="text" id="editRecipeRecipeName" name="editRecipeName" value={recipe.name} onChange={e => this.handleChange(e)}></input>
 
-                            <div className="headerWrapper">
-                                <h3>Ingredient Name</h3>
-                                <h3>Quantity</h3>
-                                <h3 id="noQuantityH3">No Quantity</h3>
-                            </div>
-
                             <div className="ingredientsWrapper">
-                                <EditRecipeRows ingredients={this.state.editRecipeIngredients} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} addIngredientRow={this.addIngredientRow} />
-                                {/* Need To Add a Key Here? Getting an error. */}
-                                <div className="ingredientRow">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <button className="btn btn-success" onClick={() => this.addIngredientRow()}>Add Row</button>
-                                </div>
+                                <IngredientRows ingredients={this.state.editRecipeIngredients}/>
                             </div>
 
                             <button type="button" className="btn btn-info editRecipe" onClick={(e) => this.handleSave(e)}>Save</button>

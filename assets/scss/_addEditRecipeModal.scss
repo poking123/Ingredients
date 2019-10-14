@@ -1,0 +1,18 @@
+.modal-header {
+    // Need to add in .modal-header so justifyContentCenter does not get overwritten
+    &.justifyContentCenter {
+        justify-content: center;
+    }
+}
+
+.modal-footer {
+    // Need to add in .modal-footer so justifyContentCenter does not get overwritten
+    &.justifyContentCenter {
+        justify-content: center;
+    }
+
+    // Puts buttons on opposites in modal
+    &.spaceBetweenModalFooter {
+        justify-content: space-between;
+    }
+}

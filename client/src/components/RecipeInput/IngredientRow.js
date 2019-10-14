@@ -1,11 +1,6 @@
 import React from 'react';
 
-// ChooseRecipe -> EditRecipeRows -> EditRecipeRow
-
-// ingredient passed in in ChooseRecipe.js
-// handleEditRecipeRowChange in ChooseRecipe.js
-// deleteEditRecipeIngredient in ChooseRecipe.js
-function EditRecipeRow({index, ingredient, handleEditRecipeRowChange, deleteEditRecipeIngredient}) {
+function IngredientRow({index, ingredient, handleEditRecipeRowChange, deleteEditRecipeIngredient}) {
     let noQuantityInput;
     let quantityInput;
 
@@ -24,4 +19,4 @@ function EditRecipeRow({index, ingredient, handleEditRecipeRowChange, deleteEdit
     </div>);
 }
 
-export default EditRecipeRow;
+export default IngredientRow;

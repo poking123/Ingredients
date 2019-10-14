@@ -41,13 +41,12 @@ div.headerWrapper {
 /* A Row of an Ingredient */
 div.ingredientRow {
     display:grid;
-    grid-template-columns: 300px 170px 200px 100px;
+    // grid-template-columns: 200px 70px 50px 100px;
+    grid-template-columns: 35% 25% 25% 15%;
 }
 
 /* Holds all the ingredients  */
 div.ingredientsWrapper {
-    width: 70%;
-    margin: 0 auto;
     display: grid;
     grid-row-gap: 5px;
 }
