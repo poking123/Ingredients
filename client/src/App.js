@@ -4,9 +4,6 @@ import Home from './components/Home';
 import { Route } from 'react-router-dom';
 import ShoppingList from './components/ShoppingList/ShoppingList';
 import Recipes from './components/Recipes/Recipes';
-import AddRecipe from './components/AddRecipe/AddRecipe';
-import 'jquery';
-import 'bootstrap';
 
 function App() {
   return (

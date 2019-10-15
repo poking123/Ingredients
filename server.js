@@ -6,12 +6,11 @@ const path = require('path');
 const mongoose = require('mongoose');
 const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 
-
 var app = express();
 
 // connect to the database
 // const db = keys.mongoURI;
-const db = process.env.LOCAL_MONGO_URI;
+const db = process.env.MONGO_URI;
 var settings = {
     reconnectTries : Number.MAX_VALUE,
     autoReconnect : true,
