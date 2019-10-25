@@ -70,12 +70,21 @@ class IngredientRows extends React.Component {
 
     render() {
         let ingredientRowsHTML = this.state.ingredients.map((ingredient, index) => {
-            return <IngredientRow index={index} ingredient={ingredient} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} key={ingredient._id} />
+            return <IngredientRow isMobile={this.props.isMobile} index={index} ingredient={ingredient} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} key={ingredient._id} />
         });
 
+        let addText;
+        let ingredientRowClass = 'ingredientRow';
+
         if (this.props.isMobile) {
-            return (<div className="ingredientsWrapper">
-                <div className="ingredientRow">
+            addText = <i className="fas fa-plus"></i>;
+            ingredientRowClass += ' mobileIngredientRow';
+        } else {
+            addText = 'Add Row';
+        }
+
+        return (<div className="ingredientsWrapper">
+                <div className={ingredientRowClass}>
                     <h2>Name</h2>
                     <h2>Qty</h2>
                     <h2 id="noQuantityH2" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">No Qty</h2>
@@ -84,34 +93,13 @@ class IngredientRows extends React.Component {
 
                 {ingredientRowsHTML}
 
-                <div className="ingredientRow">
+                <div className={ingredientRowClass}>
                     <div></div>
                     <div></div>
                     <div></div>
-                    <button className="btn btn-success" onClick={() => this.addIngredientRow()}>Add</button>
+                    <button className="btn btn-success" onClick={() => this.addIngredientRow()}>{addText}</button>
                 </div>
-            </div>);  
-        } else {
-            return (<div className="ingredientsWrapper">
-                <div className="ingredientRow">
-                    <h2>Ingredient Name</h2>
-                    <h2>Quantity</h2>
-                    <h2 id="noQuantityH2" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">No Quantity</h2>
-                    <div></div>
-                </div>
-
-                {ingredientRowsHTML}
-
-                <div className="ingredientRow">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <button className="btn btn-success" onClick={() => this.addIngredientRow()}>Add Row</button>
-                </div>
-            </div>);  
-        }
-
-        
+            </div>);
     }
 }
 
