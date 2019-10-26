@@ -1,6 +1,6 @@
 import React from 'react';
 
-function IngredientRow({isMobile, index, ingredient, handleEditRecipeRowChange, deleteEditRecipeIngredient}) {
+function IngredientRow({isMobile, isTablet, index, ingredient, handleEditRecipeRowChange, deleteEditRecipeIngredient}) {
     let noQuantityInput;
     let quantityInput;
 
@@ -11,6 +11,9 @@ function IngredientRow({isMobile, index, ingredient, handleEditRecipeRowChange, 
     if (isMobile) {
         ingredientRowClass += ' mobileIngredientRow';
         deleteText = <i className="fas fa-minus"></i>;
+    } else if (isTablet) {
+        ingredientRowClass += ' tabletIngredientRow';
+        deleteText = 'Delete';
     } else {
         deleteText = 'Delete';
     }

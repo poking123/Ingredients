@@ -70,7 +70,7 @@ class IngredientRows extends React.Component {
 
     render() {
         let ingredientRowsHTML = this.state.ingredients.map((ingredient, index) => {
-            return <IngredientRow isMobile={this.props.isMobile} index={index} ingredient={ingredient} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} key={ingredient._id} />
+            return <IngredientRow isMobile={this.props.isMobile} isTablet={this.props.isTablet} index={index} ingredient={ingredient} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} key={ingredient._id} />
         });
 
         let addText;
