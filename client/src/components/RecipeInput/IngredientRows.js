@@ -79,6 +79,8 @@ class IngredientRows extends React.Component {
         if (this.props.isMobile) {
             addText = <i className="fas fa-plus"></i>;
             ingredientRowClass += ' mobileIngredientRow';
+        } else if (this.props.isTablet) {
+            addText = 'Add';
         } else {
             addText = 'Add Row';
         }
