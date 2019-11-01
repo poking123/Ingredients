@@ -1,12 +1,14 @@
 import React from 'react';
 import ChooseAddEditRecipe from '../AddEditRecipeModal/ChooseAddEditRecipe';
 import AddRecipeStep1 from '../AddEditRecipeModal/AddRecipeStep1';
+import AddRecipeStep2 from '../AddEditRecipeModal/AddRecipeStep2';
 
 class Recipes extends React.Component {
     constructor() {
         super();
         this.state = {
             modalStep: 'ChooseAddEditRecipe',
+            stepNumber: 0,
             recipeName: '',
             ingredients: [],
             showModal: true,
@@ -14,16 +16,22 @@ class Recipes extends React.Component {
         }
     }
 
-    handleStepChange = stepName => {
+    handleStepChange = (stepName, stepNumber) => {
         this.setState({
-            modalStep: stepName
+            modalStep: stepName,
+            stepNumber
         });
     }
 
-    handleRecipeChangeName = recipeName => {
+    handleRecipeNameChange = e => {
         this.setState({
-            recipeName
+            recipeName: e.target.value
         });
+    }
+
+    recipeNameIsNotEmpty = () => {
+        let recipeName = this.state.recipeName.trim();
+        return recipeName !== null && recipeName !== undefined && recipeName !== '';
     }
 
     componentDidMount() {
@@ -56,9 +64,22 @@ class Recipes extends React.Component {
             isTablet = false;
         }
 
+        let stepData = {
+            modalStep: this.state.modalStep,
+            handleStepChange: this.handleStepChange,
+            stepNumber: this.state.stepNumber
+        }
+
+        let recipeNameData = {
+            recipeName: this.state.recipeName,
+            handleRecipeNameChange: this.handleRecipeNameChange,
+            recipeNameIsNotEmpty: this.recipeNameIsNotEmpty
+        }
+
         return (<div id="modalContainer">
-            <ChooseAddEditRecipe modalStep={this.state.modalStep} handleStepChange={this.handleStepChange} />
-            <AddRecipeStep1 isMobile={isMobile} isTablet={isTablet} modalStep={this.state.modalStep} handleStepChange={this.handleStepChange} recipeName={this.state.recipeName} handleRecipeChangeName={this.handleRecipeChangeName} />
+            <ChooseAddEditRecipe stepData={stepData} />
+            <AddRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
+            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} />
         </div>)
     }
 }

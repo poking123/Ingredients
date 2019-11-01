@@ -1,9 +1,14 @@
+// Desktop
 @import 'addEditRecipeModal';
 @import 'addRecipe';
-@import 'addRecipeModalMobile';
-@import 'addRecipeModalTablet';
 @import 'chooseRecipe';
 @import 'common';
 @import 'editRecipe';
 @import 'recipes';
 @import 'index';
+
+// Mobile
+@import './mobile/addRecipeModalMobile';
+
+// Tablet
+@import './tablet/addRecipeModalTablet';

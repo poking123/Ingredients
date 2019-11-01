@@ -39,11 +39,11 @@ div.headerWrapper {
 }
 
 /* A Row of an Ingredient */
-div.ingredientRow {
-    display:grid;
-    // grid-template-columns: 200px 70px 50px 100px;
-    grid-template-columns: 35% 25% 25% 15%;
-}
+// div.ingredientRow {
+//     display:grid;
+//     // grid-template-columns: 200px 70px 50px 100px;
+//     grid-template-columns: 35% 25% 25% 15%;
+// }
 
 /* Holds all the ingredients  */
 div.ingredientsWrapper {
@@ -56,29 +56,8 @@ input.ingredientName {
     text-align: center;
 }
 
-input.ingredientQuantity {
-    width: 50%;
-    text-align: center;
-
-    &.hasQuantity {
-        background-color: white;
-    }
-
-    &.noQuantity {
-        background-color: gray;
-    }
-}
-
-input.ingredientNoQuantity {
-    margin-left: 35%;
-}
-
 /* Save Button */
 button.editRecipe {
     display: block;
     margin: 4% 7% 0 auto;
-}
-
-.test {
-    padding-bottom: 5%;
 }

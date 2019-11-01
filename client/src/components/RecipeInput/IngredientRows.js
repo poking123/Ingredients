@@ -82,26 +82,53 @@ class IngredientRows extends React.Component {
         } else if (this.props.isTablet) {
             addText = 'Add';
         } else {
-            addText = 'Add Row';
+            addText = 'Add';
         }
 
         return (<div className="ingredientsWrapper">
-                <div className={ingredientRowClass}>
-                    <h2>Name</h2>
-                    <h2>Qty</h2>
-                    <h2 id="noQuantityH2" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">No Qty</h2>
-                    <div></div>
-                </div>
+            <div className={ingredientRowClass}>
+                <label>Name</label>
+                <label>Qty</label>
+                <label id="noQuantityH2" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">No Qty</label>
+                <label></label>
+            </div>
 
-                {ingredientRowsHTML}
+            {ingredientRowsHTML}
 
-                <div className={ingredientRowClass}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <button className="btn btn-success" onClick={() => this.addIngredientRow()}>{addText}</button>
-                </div>
-            </div>);
+            <div className={ingredientRowClass}>
+                <div></div>
+                <div></div>
+                <div></div>
+                <button className="btn btn-success" onClick={() => this.addIngredientRow()}>{addText}</button>
+            </div>
+        </div>);
+
+        // return <div className="ingredientsHolder">
+        //     <div className="form-row">
+        //         <div class="col-md-5">
+        //             <label htmlFor="validationCustom01">Name</label>
+        //             {/* <input type="text" class="form-control" id="validationCustom01" placeholder="Ingredient Name" /> */}
+        //         </div>
+        //         <div class="col-md-2">
+        //             <label htmlFor="validationCustom012">Quantity</label>
+        //             {/* <input type="text" class="form-control" id="validationCustom02" placeholder="Quantity" /> */}
+        //         </div>
+        //         <div class="form-check">
+        //             <label class="form-check-label" for="defaultCheck1">No Quantity</label>
+        //             {/* <input className="noQuantityInputBootstrap" type="checkbox" value="" id="defaultCheck1" /> */}
+        //         </div>
+        //         <div class="col-md-3">
+        //             <label htmlFor="validationCustom012"> </label>
+        //             {/* <button type="button" className="btn btn-danger displayFlex">Delete</button> */}
+        //         </div>
+        //     </div>
+
+        //     {ingredientRowsHTML}
+
+        //     {/* <div className="form-row">
+        //         <button className="btn btn-success" onClick={() => this.addIngredientRow()}>{addText}</button>
+        //     </div> */}
+        // </div>
     }
 }
 

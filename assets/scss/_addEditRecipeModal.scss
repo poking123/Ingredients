@@ -5,6 +5,40 @@
     }
 }
 
+.modal-body {
+    div.ingredientRow {
+        display:grid;
+        grid-template-columns: 35% 15% 11% 15%;
+        justify-content: space-between;
+
+        .ingredientNoQuantity {
+            margin: auto;
+        }
+    }
+
+    .noQuantityInputBootstrap {
+        margin-top: 1rem;
+        margin-left: 2rem;
+        display: block;
+    }
+
+    .displayFlex {
+        display: flex;
+    }
+
+    input.ingredientQuantity {
+        text-align: center;
+    
+        &.hasQuantity {
+            background-color: white;
+        }
+    
+        &.noQuantity {
+            background-color: gray;
+        }
+    }
+}
+
 .modal-footer {
     // Need to add in .modal-footer so justifyContentCenter does not get overwritten
     &.justifyContentCenter {
