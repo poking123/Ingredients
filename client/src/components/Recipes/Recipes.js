@@ -34,6 +34,10 @@ class Recipes extends React.Component {
         return recipeName !== null && recipeName !== undefined && recipeName !== '';
     }
 
+    handleIngredientChange = () => {
+
+    }
+
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowSizeChange);
     }
@@ -76,10 +80,15 @@ class Recipes extends React.Component {
             recipeNameIsNotEmpty: this.recipeNameIsNotEmpty
         }
 
+        let ingredientsData = {
+            ingredients: this.state.ingredients,
+            handleIngredientChange: this.handleIngredientChange
+        }
+
         return (<div id="modalContainer">
             <ChooseAddEditRecipe stepData={stepData} />
             <AddRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
-            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} />
+            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} ingredientsData={ingredientsData} />
         </div>)
     }
 }

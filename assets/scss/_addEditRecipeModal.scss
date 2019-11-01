@@ -6,13 +6,23 @@
 }
 
 .modal-body {
-    div.ingredientRow {
-        display:grid;
-        grid-template-columns: 35% 15% 11% 15%;
-        justify-content: space-between;
+    div.ingredientsWrapper {
+        display: grid;
+        grid-row-gap: 0.5rem;
+        text-align: center;
 
-        .ingredientNoQuantity {
-            margin: auto;
+        div.ingredientRow {
+            display: grid;
+            grid-template-columns: 35% 15% 20% 15%;
+            justify-content: space-between;
+    
+            .ingredientName {
+                text-align: center;
+            }
+    
+            .ingredientNoQuantity {
+                margin: auto;
+            }
         }
     }
 

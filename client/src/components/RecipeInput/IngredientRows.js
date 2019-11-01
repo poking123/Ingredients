@@ -7,7 +7,7 @@ class IngredientRows extends React.Component {
         super(props);
 
         this.state = {
-            ingredients: this.props.ingredients
+            ingredients: this.props.ingredientsData.ingredients
         };
     }
 
@@ -75,21 +75,29 @@ class IngredientRows extends React.Component {
 
         let addText;
         let ingredientRowClass = 'ingredientRow';
+        let quantityText;
+        let noQuantityText;
 
         if (this.props.isMobile) {
             addText = <i className="fas fa-plus"></i>;
             ingredientRowClass += ' mobileIngredientRow';
+            quantityText = 'Qty';
+            noQuantityText = 'No Qty';
         } else if (this.props.isTablet) {
             addText = 'Add';
+            quantityText = 'Qty';
+            noQuantityText = 'No Qty';
         } else {
             addText = 'Add';
+            quantityText = 'Quantity';
+            noQuantityText = 'No Quantity';
         }
 
         return (<div className="ingredientsWrapper">
             <div className={ingredientRowClass}>
                 <label>Name</label>
-                <label>Qty</label>
-                <label id="noQuantityH2" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">No Qty</label>
+                <label>{quantityText}</label>
+                <label id="noQuantityH2" data-toggle="tooltip" title="For ingredients we do not wish to add a quantity to. It is always assumed that these ingredients have infinite quantity.">{noQuantityText}</label>
                 <label></label>
             </div>
 

@@ -24,6 +24,9 @@ router.get('/:id', (req, res) => {
 // @route   POST api/recipes/addRecipe
 // @desc    Create a Recipe
 // @access  Public
+// Need 
+// - name (Recipe Name)
+// - ingredients
 router.post('/addRecipe', (req, res) => {
     const newRecipe = new Recipe({
         name: req.body.name,

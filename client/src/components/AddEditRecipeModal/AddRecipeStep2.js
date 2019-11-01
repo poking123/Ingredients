@@ -7,7 +7,7 @@ import IngredientRows from '../RecipeInput/IngredientRows';
  - handleStepChange
  - stepNumber
 */
-function AddRecipeStep2({isMobile, isTablet, stepData}) {
+function AddRecipeStep2({isMobile, isTablet, stepData, ingredientsData}) {
     let stepName = stepData.modalStep + stepData.stepNumber;
     if (stepName !== 'AddRecipeStep2') {
         return null;
@@ -19,7 +19,7 @@ function AddRecipeStep2({isMobile, isTablet, stepData}) {
             </Modal.Header>
 
             <Modal.Body>
-                <IngredientRows isMobile={isMobile} isTablet={isTablet} ingredients={[]} />
+                <IngredientRows isMobile={isMobile} isTablet={isTablet} ingredientsData={ingredientsData} />
             </Modal.Body>
 
             <Modal.Footer className="spaceBetweenModalFooter">
