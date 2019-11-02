@@ -38,6 +38,25 @@ class Recipes extends React.Component {
 
     }
 
+    ingredientsAreEmpty = () => {
+        // ingredients is an object with fields
+        // - name
+        // - quantity (quantity is null if no quantity)
+
+        this.state.ingredients.forEach(ingredient => {
+            if (ingredient.name === undefined || ingredient.name === null || ingredient.name === '') {
+                return true;
+            }
+            
+            if (ingredient.quantity !== undefined && ingredient.quantity !== null) {
+                if (ingredient.quantity <= 0) {
+                    return true;
+                }
+            }
+        });
+        return false;
+    }
+
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowSizeChange);
     }
@@ -68,27 +87,35 @@ class Recipes extends React.Component {
             isTablet = false;
         }
 
+        /*
+            ChooseAddEditRecipe
+            AddRecipeStep1
+            AddRecipeStep2
+        */
         let stepData = {
             modalStep: this.state.modalStep,
             handleStepChange: this.handleStepChange,
             stepNumber: this.state.stepNumber
         }
 
+        // AddRecipeStep1
         let recipeNameData = {
             recipeName: this.state.recipeName,
             handleRecipeNameChange: this.handleRecipeNameChange,
             recipeNameIsNotEmpty: this.recipeNameIsNotEmpty
         }
 
+        // AddRecipeStep2
         let ingredientsData = {
             ingredients: this.state.ingredients,
-            handleIngredientChange: this.handleIngredientChange
+            handleIngredientChange: this.handleIngredientChange,
+            ingredientsAreEmpty: this.ingredientsAreEmpty
         }
 
         return (<div id="modalContainer">
             <ChooseAddEditRecipe stepData={stepData} />
             <AddRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
-            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} ingredientsData={ingredientsData} />
+            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} recipeName={this.state.recipeName} ingredientsData={ingredientsData} />
         </div>)
     }
 }

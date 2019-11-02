@@ -111,32 +111,6 @@ class IngredientRows extends React.Component {
             </div>
         </div>);
 
-        // return <div className="ingredientsHolder">
-        //     <div className="form-row">
-        //         <div class="col-md-5">
-        //             <label htmlFor="validationCustom01">Name</label>
-        //             {/* <input type="text" class="form-control" id="validationCustom01" placeholder="Ingredient Name" /> */}
-        //         </div>
-        //         <div class="col-md-2">
-        //             <label htmlFor="validationCustom012">Quantity</label>
-        //             {/* <input type="text" class="form-control" id="validationCustom02" placeholder="Quantity" /> */}
-        //         </div>
-        //         <div class="form-check">
-        //             <label class="form-check-label" for="defaultCheck1">No Quantity</label>
-        //             {/* <input className="noQuantityInputBootstrap" type="checkbox" value="" id="defaultCheck1" /> */}
-        //         </div>
-        //         <div class="col-md-3">
-        //             <label htmlFor="validationCustom012"> </label>
-        //             {/* <button type="button" className="btn btn-danger displayFlex">Delete</button> */}
-        //         </div>
-        //     </div>
-
-        //     {ingredientRowsHTML}
-
-        //     {/* <div className="form-row">
-        //         <button className="btn btn-success" onClick={() => this.addIngredientRow()}>{addText}</button>
-        //     </div> */}
-        // </div>
     }
 }
 

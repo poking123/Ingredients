@@ -19,10 +19,10 @@ function IngredientRow({isMobile, isTablet, index, ingredient, handleEditRecipeR
     }
 
     noQuantityInput = <input type="checkbox" name="noQuantity" className="ingredientNoQuantity" onChange={e => handleEditRecipeRowChange(e, index)} checked={ingredient.quantity === null} />
-    
-    if (ingredient.quantity !== null) { // has quantity
+    // Has Quantity
+    if (ingredient.quantity !== null) { 
         quantityInput = <input type="number" name="quantity" className="form-control ingredientQuantity hasQuantity" onChange={e => handleEditRecipeRowChange(e, index)} value={ingredient.quantity} min="0" max="999" />;
-    } else { // no quantity
+    } else { // No Quantity
         quantityInput = <input type="number" name="quantity" className="form-control ingredientQuantity noQuantity" onChange={e => handleEditRecipeRowChange(e, index)} value='' min="0" max="999" disabled />;
     }
 
@@ -32,20 +32,6 @@ function IngredientRow({isMobile, isTablet, index, ingredient, handleEditRecipeR
         { noQuantityInput }
         <button type="button" className="btn btn-danger" onClick={() => deleteEditRecipeIngredient(index)}>{deleteText}</button>
     </div>);
-    return <div class="form-row">
-            <div>
-                <input type="text" class="form-control" placeholder="Enter Ingredient" />
-            </div>
-            <div>
-                <input type="number" class="form-control" placeholder="Enter Quantity" />
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-            </div>
-            <div>
-                <button type="button" className="btn btn-danger" onClick={() => deleteEditRecipeIngredient(index)}>{deleteText}</button>
-            </div>
-        </div>
     
 }
 
