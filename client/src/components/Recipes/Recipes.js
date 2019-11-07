@@ -1,7 +1,10 @@
 import React from 'react';
+import $ from 'jquery';
 import ChooseAddEditRecipe from '../AddEditRecipeModal/ChooseAddEditRecipe';
 import AddRecipeStep1 from '../AddEditRecipeModal/AddRecipeStep1';
 import AddRecipeStep2 from '../AddEditRecipeModal/AddRecipeStep2';
+
+import EditRecipeStep1 from '../AddEditRecipeModal/EditRecipeStep1';
 
 class Recipes extends React.Component {
     constructor() {
@@ -34,8 +37,18 @@ class Recipes extends React.Component {
         return recipeName !== null && recipeName !== undefined && recipeName !== '';
     }
 
-    handleIngredientChange = () => {
+    hasRecipeName = recipeName => {
+        $.ajax({
+            type: 'GET',
+            url: 'api/recipes/' + recipeName,
+            success: function(data) {
+            }
+        });
+        // NOT FINISHED
+    }
 
+    handleIngredientChange = ingredients => {
+        this.setState(ingredients);
     }
 
     ingredientsAreEmpty = () => {
@@ -102,7 +115,8 @@ class Recipes extends React.Component {
         let recipeNameData = {
             recipeName: this.state.recipeName,
             handleRecipeNameChange: this.handleRecipeNameChange,
-            recipeNameIsNotEmpty: this.recipeNameIsNotEmpty
+            recipeNameIsNotEmpty: this.recipeNameIsNotEmpty,
+            hasRecipeName: this.hasRecipeName
         }
 
         // AddRecipeStep2
@@ -116,6 +130,7 @@ class Recipes extends React.Component {
             <ChooseAddEditRecipe stepData={stepData} />
             <AddRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
             <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} recipeName={this.state.recipeName} ingredientsData={ingredientsData} />
+            <EditRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
         </div>)
     }
 }

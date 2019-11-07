@@ -21,6 +21,15 @@ router.get('/:id', (req, res) => {
         .then(items => res.json(items))
 });
 
+// @route   GET api/recipes/:name
+// @desc    Get one Recipes
+// @access  Public
+router.get('/:name', (req, res) => {
+    const recipeName = req.params.name;
+    Recipe.findOne({name: recipeName})
+        .then(items => res.json(items))
+});
+
 // @route   POST api/recipes/addRecipe
 // @desc    Create a Recipe
 // @access  Public

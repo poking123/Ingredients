@@ -20,7 +20,7 @@ function AddRecipeStep2({isMobile, isTablet, stepData, recipeName, ingredientsDa
     }
 
     function saveRecipeCheck() {
-        if (ingredientsData.ingredientsAreEmpty()) {
+        if (!ingredientsData.ingredientsAreEmpty()) {
             let recipe = {
                 name: recipeName,
                 ingredients: ingredientsData.ingredients
@@ -54,7 +54,6 @@ function AddRecipeStep2({isMobile, isTablet, stepData, recipeName, ingredientsDa
             <Modal.Footer className="spaceBetweenModalFooter">
                 <button type="button" className="btn btn-secondary" onClick={() => stepData.handleStepChange('AddRecipeStep', stepData.stepNumber - 1)}>Back</button>
                 <button type="button" className="btn btn-primary" onClick={() => saveRecipeCheck()}>Save Recipe</button>
-                {/* We need a function to check that the ingredients are properly put in, sends an AJAX request to add the recipe, then go to ChooseAddEditRecipe */}
             </Modal.Footer>
     </Modal>)
 }

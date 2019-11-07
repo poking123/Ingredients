@@ -2,6 +2,14 @@ import React from 'react';
 import IngredientRow from '../RecipeInput/IngredientRow';
 import uuidv4 from 'uuid/v4';
 
+/*
+    props:
+    ingredientsData has
+    - ingredients
+    - handleIngredientChange
+    - ingredientsAreEmpty
+*/
+
 class IngredientRows extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +49,9 @@ class IngredientRows extends React.Component {
             }
         }
         newIngredients[index] = ingredient;
-        this.setState({ingredients: newIngredients});
+        this.setState({ingredients: newIngredients}, () => {
+            this.props.ingredientData.handleIngredientChange(this.state.ingredients);
+        });
     }
 
     deleteEditRecipeIngredient = index => {

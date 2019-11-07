@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 // schemas
 var ingredientSchema = new mongoose.Schema({
     name: String,
-    quantity: Number,
-    noQuantity: Boolean
+    quantity: Number
 });
 
 var recipeSchema = new mongoose.Schema({

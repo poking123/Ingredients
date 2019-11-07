@@ -15,7 +15,7 @@ function AddRecipeStep1({stepData, recipeNameData}) {
 
     function nextStepCheck() {
         if (recipeNameData.recipeNameIsNotEmpty()) {
-            stepData.handleStepChange('AddRecipeStep', stepData.stepNumber + 1)
+            stepData.handleStepChange('AddRecipeStep', stepData.stepNumber + 1);
         } else {
             document.getElementById('recipeNameAlert').classList.remove('displayNone');
         }

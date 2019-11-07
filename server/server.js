@@ -1,12 +1,23 @@
 require('dotenv').config();
 
 const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 
 var app = express();
+
+// allow cross-origin requests
+app.use(cors());
+
+// bind express with graphql
+// app.use('/graphql', graphqlHTTP({
+//     schema,
+//     graphiql: true
+// }));
 
 // connect to the database
 // const db = keys.mongoURI;
