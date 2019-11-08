@@ -8,6 +8,7 @@ import uuidv4 from 'uuid/v4';
     - ingredients
     - handleIngredientChange
     - ingredientsAreEmpty
+    - removeIngredientIds
 */
 
 class IngredientRows extends React.Component {
@@ -36,7 +37,7 @@ class IngredientRows extends React.Component {
         if (targetName === 'ingredientName') { // find index of the ingredient name
             ingredient.name = newIngredientValue; // ingredient name
         } else if (targetName === 'quantity') {
-            ingredient.quantity = newIngredientValue; // ingredient quantity
+            ingredient.quantity = parseInt(newIngredientValue); // ingredient quantity
         } else if (targetName === 'noQuantity') {
             // Important - e.target.checked is the checked value boolean before you clicked it
             if (e.target.checked) { // going to have no quantity
@@ -50,7 +51,7 @@ class IngredientRows extends React.Component {
         }
         newIngredients[index] = ingredient;
         this.setState({ingredients: newIngredients}, () => {
-            this.props.ingredientData.handleIngredientChange(this.state.ingredients);
+            this.props.ingredientsData.handleIngredientChange(this.state.ingredients);
         });
     }
 

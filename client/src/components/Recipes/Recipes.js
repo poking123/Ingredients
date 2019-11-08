@@ -51,6 +51,13 @@ class Recipes extends React.Component {
         this.setState(ingredients);
     }
 
+    removeIngredientIds = () => {
+        let ingredients = this.state.ingredients;
+        for (let i = 0; i < ingredients.length; i++) {
+            delete ingredients[i]._id;
+        }
+    }
+
     ingredientsAreEmpty = () => {
         // ingredients is an object with fields
         // - name
@@ -123,7 +130,8 @@ class Recipes extends React.Component {
         let ingredientsData = {
             ingredients: this.state.ingredients,
             handleIngredientChange: this.handleIngredientChange,
-            ingredientsAreEmpty: this.ingredientsAreEmpty
+            ingredientsAreEmpty: this.ingredientsAreEmpty,
+            removeIngredientIds: this.removeIngredientIds
         }
 
         return (<div id="modalContainer">

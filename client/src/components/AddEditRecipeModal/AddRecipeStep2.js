@@ -1,7 +1,8 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
+import { addRecipeMutation } from '../../queries/queries';
 import Modal from 'react-bootstrap/Modal';
 import IngredientRows from '../RecipeInput/IngredientRows';
-import $ from 'jquery';
 
 /* stepData has 
  - modalStep
@@ -12,8 +13,9 @@ import $ from 'jquery';
  - ingredients
  - handleIngredientChange
  - ingredientsAreEmpty
+ - removeIngredientIds
 */
-function AddRecipeStep2({isMobile, isTablet, stepData, recipeName, ingredientsData}) {
+function AddRecipeStep2({isMobile, isTablet, stepData, recipeName, ingredientsData, addRecipeMutation}) {
     let stepName = stepData.modalStep + stepData.stepNumber;
     if (stepName !== 'AddRecipeStep2') {
         return null;
@@ -21,25 +23,17 @@ function AddRecipeStep2({isMobile, isTablet, stepData, recipeName, ingredientsDa
 
     function saveRecipeCheck() {
         if (!ingredientsData.ingredientsAreEmpty()) {
-            let recipe = {
-                name: recipeName,
-                ingredients: ingredientsData.ingredients
-            };
-
-            addNewRecipeAJAX(recipe);
+            console.log('recipeName is', recipeName);
+            console.log('ingredientsData.ingredients is', ingredientsData.ingredients);
+            ingredientsData.removeIngredientIds();
+            addRecipeMutation({
+                variables: {
+                    name: recipeName,
+                    ingredients: ingredientsData.ingredients
+                }
+            });
             stepData.handleStepChange('ChooseAddEditRecipe');
         }
-    }
-
-    function addNewRecipeAJAX(recipe) {
-        $.ajax({
-            type: 'POST',
-            url: 'api/recipes/addRecipe',
-            data: JSON.stringify(recipe),
-            contentType: 'application/json',
-            success: function(data){
-            }
-        });
     }
 
     return (<Modal show={true} size="md">
@@ -58,4 +52,4 @@ function AddRecipeStep2({isMobile, isTablet, stepData, recipeName, ingredientsDa
     </Modal>)
 }
 
-export default AddRecipeStep2;
+export default graphql(addRecipeMutation, { name: "addRecipeMutation" })(AddRecipeStep2);

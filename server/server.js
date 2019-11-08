@@ -2,11 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+const schema = require('./schema/schema');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
-const recipes = require(path.join(__dirname, '/routers/api/recipes'));
+// const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 
 var app = express();
 
@@ -14,10 +15,10 @@ var app = express();
 app.use(cors());
 
 // bind express with graphql
-// app.use('/graphql', graphqlHTTP({
-//     schema,
-//     graphiql: true
-// }));
+app.use('/graphql', graphqlHTTP({
+    schema,
+    graphiql: true
+}));
 
 // connect to the database
 // const db = keys.mongoURI;
@@ -40,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public/')));
 
-app.use('/api/recipes', recipes);
+// app.use('/api/recipes', recipes);
 
 // Serve Static Assets if in Production
 if (process.env.NODE_ENV === 'production') {
