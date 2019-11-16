@@ -19,8 +19,9 @@ import { ApolloProvider } from 'react-apollo';
 
 // Apollo Client Setup
 let serverURI = process.env.REACT_APP_SERVER_URI;
+console.log('serverURI is', serverURI);
 const apolloClient = new ApolloClient({
-  uri: '/graphql'
+  uri: serverURI + 'graphql'
 });
 
 function onAuthRequired({ history }) {

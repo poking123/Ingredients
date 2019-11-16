@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 // Local
 const envPath = path.join(__dirname, '..', '.env');
 // Production.Local
-const envProductionPath = path.join(__dirname, '..', '.env.production.local');
+// const envPath = path.join(__dirname, '..', '.env.production.local');
 
 require('dotenv').config({path: envPath});
 
