@@ -25,7 +25,7 @@ app.use(cors());
 // bind express with graphql
 app.use('/graphql', graphqlHTTP({
     schema,
-    graphiql: true
+    graphiql: !process.env.NODE_ENV === 'production'
 }));
 
 // connect to the database
@@ -35,7 +35,7 @@ const db = process.env.MONGO_URI;
 var settings = {
     reconnectTries : Number.MAX_VALUE,
     autoReconnect : true,
-    useNewUrlParser: true, 
+    useNewUrlParser: true,
     useUnifiedTopology: true
 };
 mongoose.connect(db, settings)

@@ -152,11 +152,4 @@ class Recipes extends React.Component {
 
 export default graphql(getRecipeQuery, { 
     name: "getRecipeQuery"
-    // options: props => {
-    //     return {
-    //         variables: {
-    //             name: this.state.recipeName
-    //         }
-    //     }
-    // }
 })(Recipes);
