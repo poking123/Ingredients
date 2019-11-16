@@ -1,15 +1,23 @@
-require('dotenv').config();
-
+// Packages
 const express = require('express');
+const path = require('path');
 const graphqlHTTP = require('express-graphql');
 const schema = require('./schema/schema');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
+// const path = require('path');
 const mongoose = require('mongoose');
-// const recipes = require(path.join(__dirname, '/routers/api/recipes'));
 
-var app = express();
+// Configuration for Environment Variables
+// Local
+const envPath = path.join(__dirname, '..', '.env');
+// Production.Local
+const envProductionPath = path.join(__dirname, '..', '.env.production.local');
+
+require('dotenv').config({path: envPath});
+
+// App
+const app = express();
 
 // allow cross-origin requests
 app.use(cors());
@@ -23,6 +31,7 @@ app.use('/graphql', graphqlHTTP({
 // connect to the database
 // const db = keys.mongoURI;
 const db = process.env.MONGO_URI;
+
 var settings = {
     reconnectTries : Number.MAX_VALUE,
     autoReconnect : true,

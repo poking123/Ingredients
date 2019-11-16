@@ -13,6 +13,6 @@ var recipeSchema = new mongoose.Schema({
 
 
 // model
-var Recipe = mongoose.model('recipe', recipeSchema);
+var Recipe = mongoose.model('Recipe', recipeSchema);
 
 module.exports = Recipe;

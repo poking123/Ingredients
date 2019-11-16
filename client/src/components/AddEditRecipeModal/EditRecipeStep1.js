@@ -1,6 +1,14 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
+/*
+recipeNameData has
+- recipeName
+- handleRecipeNameChange
+- recipeNameIsNotEmpty
+- hasRecipeName
+*/
+
 function EditRecipeStep1({stepData, recipeNameData}) {
     let stepName = stepData.modalStep + stepData.stepNumber;
     if (stepName !== 'EditRecipeStep1') {
@@ -9,7 +17,8 @@ function EditRecipeStep1({stepData, recipeNameData}) {
 
     function nextStepCheck() {
         if (recipeNameData.hasRecipeName()) {
-            stepData.handleStepChange('EditRecipeStep', stepData.stepNumber + 1);
+            // stepData.handleStepChange('EditRecipeStep', stepData.stepNumber + 1);
+            stepData.handleStepChange('AddRecipeStep', stepData.stepNumber + 1);
         } else {
             document.getElementById('recipeNameAlert').classList.remove('displayNone');
         }

@@ -46,9 +46,22 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         recipe: {
             type: RecipeType,
-            args: { id: { type: GraphQLID } },
-            resolve(parent, args){
-                return Recipe.findById(args.id);
+            args: { 
+                id: { type: GraphQLID },
+                name: { type: GraphQLString }
+            },
+            resolve(parent, args) {
+                let {id, name} = args;
+                let query = {};
+
+                if (id !== undefined) {
+                    query._id = id
+                }
+                if (name !== undefined) {
+                    query.name = name
+                }
+
+                return Recipe.findOne(query);
             }
         },
         recipes: {

@@ -2,8 +2,8 @@ import { gql } from 'apollo-boost';
 
 const getRecipeQuery = gql`
     query GetRecipe($id: ID){
-        recipe (_id: $id) {
-            _id
+        recipe (id: $id) {
+            id
             name
             ingredients {
                 name

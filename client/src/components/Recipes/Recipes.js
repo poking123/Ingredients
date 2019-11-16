@@ -1,5 +1,7 @@
 import React from 'react';
-import $ from 'jquery';
+import { graphql, Query } from 'react-apollo';
+import { getRecipeQuery } from '../../queries/queries';
+
 import ChooseAddEditRecipe from '../AddEditRecipeModal/ChooseAddEditRecipe';
 import AddRecipeStep1 from '../AddEditRecipeModal/AddRecipeStep1';
 import AddRecipeStep2 from '../AddEditRecipeModal/AddRecipeStep2';
@@ -38,13 +40,18 @@ class Recipes extends React.Component {
     }
 
     hasRecipeName = recipeName => {
-        $.ajax({
-            type: 'GET',
-            url: 'api/recipes/' + recipeName,
-            success: function(data) {
-            }
-        });
-        // NOT FINISHED
+        let variables = {
+            name: recipeName
+        };
+
+        return () => (
+            <Query query={getRecipeQuery} variables={variables}>
+                {({ loading, error, data }) => {
+                    if (!loading)
+                        return data.recipe !== null;
+                }}
+            </Query>
+        )        
     }
 
     handleIngredientChange = ingredients => {
@@ -143,4 +150,13 @@ class Recipes extends React.Component {
     }
 }
 
-export default Recipes;
+export default graphql(getRecipeQuery, { 
+    name: "getRecipeQuery"
+    // options: props => {
+    //     return {
+    //         variables: {
+    //             name: this.state.recipeName
+    //         }
+    //     }
+    // }
+})(Recipes);
