@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const Recipe = require('../models/recipeModel');
+const Recipe = require('../models/RecipeModel');
 
 const {
     GraphQLObjectType,
