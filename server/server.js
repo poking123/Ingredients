@@ -25,7 +25,7 @@ app.use(cors());
 // bind express with graphql
 app.use('/graphql', graphqlHTTP({
     schema,
-    graphiql: !process.env.NODE_ENV === 'production'
+    graphiql: process.env.NODE_ENV === 'development'
 }));
 
 // connect to the database
