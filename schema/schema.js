@@ -37,7 +37,8 @@ const RecipeType = new GraphQLObjectType({
         name: { type: GraphQLString },
         ingredients: {
             type: new GraphQLList(IngredientType)
-        }
+        },
+        clientId: { type: GraphQLID }
     })
 });
 
@@ -48,10 +49,11 @@ const RootQuery = new GraphQLObjectType({
             type: RecipeType,
             args: { 
                 id: { type: GraphQLID },
-                name: { type: GraphQLString }
+                name: { type: GraphQLString },
+                clientId: { type: GraphQLID }
             },
             resolve(parent, args) {
-                let {id, name} = args;
+                let {id, name, clientId} = args;
                 let query = {};
 
                 if (id !== undefined) {
@@ -59,6 +61,9 @@ const RootQuery = new GraphQLObjectType({
                 }
                 if (name !== undefined) {
                     query.name = name
+                }
+                if (clientId !== undefined) {
+                    query.clientId = clientId
                 }
 
                 return Recipe.findOne(query);
@@ -80,12 +85,14 @@ const Mutation = new GraphQLObjectType({
             type: RecipeType,
             args: {
                 name: { type: new GraphQLNonNull(GraphQLString) },
-                ingredients: { type: new GraphQLList(IngredientInputType) }
+                ingredients: { type: new GraphQLList(IngredientInputType) },
+                clientId: { type: new GraphQLNonNull(GraphQLString) }
             },
             resolve(parent, args){
                 let recipe = new Recipe({
                     name: args.name,
-                    ingredients: args.ingredients
+                    ingredients: args.ingredients,
+                    clientId: args.clientId
                 });
                 return recipe.save();
             }

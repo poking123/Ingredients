@@ -1,6 +1,7 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Home from './components/Home';
+import Navbar from './components/Common/Navbar';
+import Home from './components/Common//Home';
+import Login from './components/Common/Login';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
@@ -41,9 +42,14 @@ function App() {
 			>
 			<div className="App">
 				<Navbar />
-				<Route exact path='/' component={Home} />
-				<Route path='/Shopping_List' component={ShoppingList} />
-				<Route path='/Recipes' component={Recipes} />
+				<div className="container">
+					<Route exact path='/' component={Home} />
+					<SecureRoute path='/Shopping_List' component={ShoppingList} />
+					<Route path='/Recipes' component={Recipes} />
+					<Route path='/login' render={() => <Login baseUrl='https://dev-875613.okta.com/' />} />
+					<Route path='/implicit/callback' component={ImplicitCallback} />
+				</div>
+				
 			</div>
 			</Security>
 		</Router>

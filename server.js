@@ -10,9 +10,9 @@ const mongoose = require('mongoose');
 
 // Configuration for Environment Variables
 // Local
-const envPath = path.join(__dirname, '..', '.env');
+const envPath = path.join(__dirname, '.env');
 // Production.Local
-// const envPath = path.join(__dirname, '..', '.env.production.local');
+// const envPath = path.join(__dirname, '.env.production.local');
 
 require('dotenv').config({path: envPath});
 
