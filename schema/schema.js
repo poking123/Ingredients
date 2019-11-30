@@ -50,22 +50,25 @@ const RootQuery = new GraphQLObjectType({
             args: { 
                 id: { type: GraphQLID },
                 name: { type: GraphQLString },
-                clientId: { type: GraphQLID }
+                clientId: { type: GraphQLString }
             },
             resolve(parent, args) {
                 let {id, name, clientId} = args;
                 let query = {};
 
-                if (id !== undefined) {
-                    query._id = id
+                if (id !== undefined && id !== '') {
+                    query.id = id
                 }
-                if (name !== undefined) {
+                if (name !== undefined && name !== '') {
                     query.name = name
                 }
-                if (clientId !== undefined) {
+                if (clientId !== undefined && clientId !== '') {
                     query.clientId = clientId
                 }
-
+                let emptyObjectError = Object.keys(query).length === 0 && obj.constructor === Object;
+                if (emptyObjectError) {
+                    throw 'Empty getRecipe Query';
+                }
                 return Recipe.findOne(query);
             }
         },
@@ -84,17 +87,27 @@ const Mutation = new GraphQLObjectType({
         addRecipe: {
             type: RecipeType,
             args: {
+                id: { type: GraphQLID },
                 name: { type: new GraphQLNonNull(GraphQLString) },
                 ingredients: { type: new GraphQLList(IngredientInputType) },
                 clientId: { type: new GraphQLNonNull(GraphQLString) }
             },
             resolve(parent, args){
-                let recipe = new Recipe({
-                    name: args.name,
-                    ingredients: args.ingredients,
-                    clientId: args.clientId
+                const { id, name, ingredients, clientId } = args;
+                Recipe.findOne({ _id: id })
+                .then(recipe => {
+                    let parameters = {
+                        name,
+                        ingredients,
+                        clientId
+                    };
+                    if(recipe) { // update
+                        Recipe.findOneAndUpdate({ _id: id }, parameters)
+                        .then(recipe => console.log('findOneAndUpdate result is', recipe));
+                    } else { // add
+                        return new Recipe(parameters).save();
+                    }
                 });
-                return recipe.save();
             }
         }
     }

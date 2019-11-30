@@ -41,10 +41,10 @@ class IngredientRows extends React.Component {
         } else if (targetName === 'noQuantity') {
             // Important - e.target.checked is the checked value boolean before you clicked it
             if (e.target.checked) { // going to have no quantity
-                sessionStorage.setItem(ingredient._id, ingredient.quantity);
+                sessionStorage.setItem(ingredient.id, ingredient.quantity);
                 ingredient.quantity = null;
             } else { // going to have quantity
-                let ssQuantity = sessionStorage.getItem(ingredient._id);
+                let ssQuantity = sessionStorage.getItem(ingredient.id);
                 if (ssQuantity === 'null') ssQuantity = null;
                 ingredient.quantity = (ssQuantity !== null) ? ssQuantity : 0;
             }
@@ -66,7 +66,7 @@ class IngredientRows extends React.Component {
         newIngredients.push({
             name: '',
             quantity: 0,
-            _id: uuidv4()
+            id: uuidv4()
         });
         this.setState({ingredients: newIngredients});
     }
@@ -81,7 +81,7 @@ class IngredientRows extends React.Component {
 
     render() {
         let ingredientRowsHTML = this.state.ingredients.map((ingredient, index) => {
-            return <IngredientRow isMobile={this.props.isMobile} isTablet={this.props.isTablet} index={index} ingredient={ingredient} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} key={ingredient._id} />
+            return <IngredientRow isMobile={this.props.isMobile} isTablet={this.props.isTablet} index={index} ingredient={ingredient} handleEditRecipeRowChange={this.handleEditRecipeRowChange} deleteEditRecipeIngredient={this.deleteEditRecipeIngredient} key={ingredient.id} />
         });
 
         let addText;

@@ -10,9 +10,9 @@ const mongoose = require('mongoose');
 
 // Configuration for Environment Variables
 // Local
-const envPath = path.join(__dirname, '.env');
+// const envPath = path.join(__dirname, '.env');
 // Production.Local
-// const envPath = path.join(__dirname, '.env.production.local');
+const envPath = path.join(__dirname, '.env.production.local');
 
 require('dotenv').config({path: envPath});
 
@@ -33,11 +33,14 @@ app.use('/graphql', graphqlHTTP({
 const db = process.env.MONGO_URI;
 
 var settings = {
-    reconnectTries : Number.MAX_VALUE,
+    reconnectTries : 10,
     autoReconnect : true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
 };
+
 mongoose.connect(db, settings)
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => {

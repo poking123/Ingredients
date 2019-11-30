@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql, Query } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { getRecipeQuery } from '../../queries/queries';
 
 import ChooseAddEditRecipe from '../AddEditRecipeModal/ChooseAddEditRecipe';
@@ -9,24 +9,60 @@ import AddRecipeStep2 from '../AddEditRecipeModal/AddRecipeStep2';
 import EditRecipeStep1 from '../AddEditRecipeModal/EditRecipeStep1';
 
 class Recipes extends React.Component {
+    defaultState = {
+        modalStep: 'ChooseAddEditRecipe',
+        stepNumber: 0,
+        switchModalStep: false, 
+        recipeId: '',
+        recipeName: '',
+        ingredients: [],
+        addedRecipe: false,
+        updatedRecipe: false,
+        showModal: true,
+        width: window.innerWidth
+    }
+
     constructor() {
         super();
-        this.state = {
-            modalStep: 'ChooseAddEditRecipe',
-            stepNumber: 0,
-            recipeName: '',
-            ingredients: [],
-            showModal: true,
-            addedRecipe: false,
-            width: window.innerWidth
-        }
+        this.state = this.defaultState;
+    }
+
+    toggleShowModal = () => {
+        this.setState((prevState, props) => ({
+            showModal: !prevState.showModal
+        }), () => {
+            if (this.state.showModal === false) {
+                this.returnDefaultState();
+            }
+        });
     }
 
     handleStepChange = (stepName, stepNumber) => {
-        this.setState({
-            modalStep: stepName,
-            stepNumber
+        this.setState((prevState, props) => {
+            if (prevState.switchModalStep) {
+                if (stepName === 'AddRecipeStep') {
+                    stepName = 'EditRecipeStep';
+                } else { // EditRecipeStep
+                    stepName = 'AddRecipeStep';
+                }
+            }
+            return {
+                modalStep: stepName,
+                stepNumber
+            };
+        })
+    }
+
+    toggleSwitchModalStep = () => {
+        this.setState((prevState, props) => {
+            return {
+                switchModalStep: !prevState.switchModalStep
+            };
         });
+    }
+
+    returnDefaultState = () => {
+        this.setState(this.defaultState);
     }
 
     handleRecipeNameChange = e => {
@@ -40,24 +76,46 @@ class Recipes extends React.Component {
         return recipeName !== null && recipeName !== undefined && recipeName !== '';
     }
 
-    hasRecipeName = () => {
-        console.log(this.state.recipeName);
+    getRecipe = async() => {
+        let idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
+        let clientId;
+        let hasClientId = false;
+        if (idToken !== null && idToken.idToken !== undefined) {
+            clientId = idToken.idToken.clientId;
+            hasClientId = clientId !== undefined && clientId != null;
+        }
+
+        if (!hasClientId) {
+            console.log('doesnt have clientId');
+            return false;
+        }
+
         let variables = {
             name: this.state.recipeName,
-            id: '',
-            clientId: ''
+            clientId: clientId
         };
 
-        console.log(this.props);
+        let recipe = await this.props.client.query({
+            query: getRecipeQuery,
+            variables
+        }).then(res => {
+            if (!res.data.loading) {
+                return res.data.recipe;
+            }
+        });
+        for (let i = 0; i < recipe.ingredients.length; i++) {
+            delete recipe.ingredients[i].__typename;
+        }
+        console.log('getting recipe. recipe is', recipe);
+        return recipe;
+    }
 
-        return () => (
-            <Query query={getRecipeQuery} variables={variables}>
-                {({ loading, error, data }) => {
-                    if (!loading)
-                        return data.recipe !== null;
-                }}
-            </Query>
-        )        
+    setRecipe = recipe => {
+        this.setState({
+            recipeId: recipe.id,
+            recipeName: recipe.name,
+            ingredients: recipe.ingredients
+        });
     }
 
     handleIngredientChange = ingredients => {
@@ -97,6 +155,19 @@ class Recipes extends React.Component {
         });
     }
 
+    updatedRecipe = () => {
+        this.setState({
+            updatedRecipe: true
+        });
+    }
+
+    resetAddEditRecipe = () => {
+        this.setState({
+            addedRecipe: false,
+            updatedRecipe: false
+        });
+    }
+
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowSizeChange);
     }
@@ -131,19 +202,48 @@ class Recipes extends React.Component {
             ChooseAddEditRecipe
             AddRecipeStep1
             AddRecipeStep2
+            EditRecipeStep1
+        */
+
+        let showModalData = {
+            showModal: this.state.showModal,
+            toggleShowModal: this.toggleShowModal
+        }
+
+        /*
+            ChooseAddEditRecipe
+            AddRecipeStep1
+            AddRecipeStep2
         */
         let stepData = {
             modalStep: this.state.modalStep,
             handleStepChange: this.handleStepChange,
-            stepNumber: this.state.stepNumber
+            stepNumber: this.state.stepNumber,
+            switchModalStep: this.state.switchModalStep,
+            toggleSwitchModalStep: this.toggleSwitchModalStep
         }
 
         // AddRecipeStep1
-        let recipeNameData = {
+        // AddRecipeStep2
+        // EditRecipeStep1
+        let recipeData = {
             recipeName: this.state.recipeName,
+            recipeId: this.state.recipeId,
             handleRecipeNameChange: this.handleRecipeNameChange,
             recipeNameIsNotEmpty: this.recipeNameIsNotEmpty,
-            hasRecipeName: this.hasRecipeName
+            addedRecipe: this.addedRecipe,
+            updatedRecipe: this.updatedRecipe,
+            resetAddEditRecipe: this.resetAddEditRecipe,
+            getRecipe: this.getRecipe,
+            setRecipe: this.setRecipe,
+            returnDefaultState: this.returnDefaultState
+        }
+
+        // ChooseAddEditRecipe
+        let addEditRecipeData = {
+            addedRecipe: this.state.addedRecipe,
+            updatedRecipe: this.state.updatedRecipe,
+            resetAddEditRecipe: this.resetAddEditRecipe
         }
 
         // AddRecipeStep2
@@ -155,14 +255,12 @@ class Recipes extends React.Component {
         }
 
         return (<div id="modalContainer">
-            <ChooseAddEditRecipe stepData={stepData} addedRecipe={this.state.addedRecipe} />
-            <AddRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
-            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} recipeName={this.state.recipeName} ingredientsData={ingredientsData} addedRecipe={this.addedRecipe}/>
-            <EditRecipeStep1 stepData={stepData} recipeNameData={recipeNameData} />
+            <ChooseAddEditRecipe stepData={stepData} addEditRecipeData={addEditRecipeData} showModalData={showModalData} />
+            <AddRecipeStep1 stepData={stepData} recipeData={recipeData} showModalData={showModalData} />
+            <AddRecipeStep2 isMobile={isMobile} isTablet={isTablet} stepData={stepData} recipeData={recipeData} ingredientsData={ingredientsData} showModalData={showModalData} />
+            <EditRecipeStep1 stepData={stepData} recipeData={recipeData} showModalData={showModalData} />
         </div>)
     }
 }
 
-export default graphql(getRecipeQuery, { 
-    name: "getRecipeQuery"
-})(Recipes);
+export default withApollo(Recipes);

@@ -1,27 +1,51 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-/* stepData has 
- - modalStep
- - handleStepChange
- - stepNumber
+/*
+let showModalData = {
+    showModal: this.state.showModal,
+    toggleShowModal: this.toggleShowModal
+}
 */
 
-function AddRecipeStep1({stepData, recipeNameData}) {
+/*
+let stepData = {
+    modalStep: this.state.modalStep,
+    handleStepChange: this.handleStepChange,
+    stepNumber: this.state.stepNumber,
+    switchModalStep: this.switchModalStep,
+    toggleSwitchModalStep: this.toggleSwitchModalStep
+}
+*/
+
+/* 
+let recipeData = {
+    recipeName: this.state.recipeName,
+    recipeId: this.state.recipeId,
+    handleRecipeNameChange: this.handleRecipeNameChange,
+    recipeNameIsNotEmpty: this.recipeNameIsNotEmpty,
+    addedRecipe: this.addedRecipe,
+    getRecipe: this.getRecipe,
+    setRecipe: this.setRecipe,
+    returnDefaultState: this.returnDefaultState
+}
+*/
+
+function AddRecipeStep1({stepData, recipeData, showModalData}) {
     let stepName = stepData.modalStep + stepData.stepNumber;
     if (stepName !== 'AddRecipeStep1') {
         return null;
     }
 
     function nextStepCheck() {
-        if (recipeNameData.recipeNameIsNotEmpty()) {
+        if (recipeData.recipeNameIsNotEmpty()) {
             stepData.handleStepChange('AddRecipeStep', stepData.stepNumber + 1);
         } else {
             document.getElementById('recipeNameAlert').classList.remove('displayNone');
         }
     }
 
-    return (<Modal show={true} size="md">
+    return (<Modal size="md" show={showModalData.showModal} onHide={() => showModalData.toggleShowModal()}>
             <Modal.Header>
                 <h1>Add New Recipe</h1>
             </Modal.Header>
@@ -29,7 +53,7 @@ function AddRecipeStep1({stepData, recipeNameData}) {
             <Modal.Body>
                 <div className="form-group">
                     <label htmlFor="addRecipeRecipeName">Recipe Name</label>
-                    <input type="text" className="form-control" id="addRecipeRecipeName" value={recipeNameData.recipeName} onChange={(e) => recipeNameData.handleRecipeNameChange(e)} placeholder="Enter Recipe Name" />
+                    <input type="text" className="form-control" id="addRecipeRecipeName" value={recipeData.recipeName} onChange={(e) => recipeData.handleRecipeNameChange(e)} placeholder="Enter Recipe Name" />
                 </div>
                 <div className="alert alert-danger displayNone" id="recipeNameAlert" role="alert">
                     <strong>Oops!</strong> Please input a non-empty Recipe Name.

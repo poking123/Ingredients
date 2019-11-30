@@ -8,7 +8,8 @@ var ingredientSchema = new mongoose.Schema({
 
 var recipeSchema = new mongoose.Schema({
     name: String,
-    ingredients: [ingredientSchema]
+    ingredients: [ingredientSchema],
+    clientId: String
 });
 
 

@@ -1,24 +1,56 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-/* stepData has 
- - modalStep
- - handleStepChange
- - stepNumber
+/*
+let showModalData = {
+    showModal: this.state.showModal,
+    toggleShowModal: this.toggleShowModal
+}
 */
-function ChooseAddEditRecipe({stepData, addedRecipe}) {
+
+/*
+let stepData = {
+    modalStep: this.state.modalStep,
+    handleStepChange: this.handleStepChange,
+    stepNumber: this.state.stepNumber,
+    switchModalStep: this.switchModalStep,
+    toggleSwitchModalStep: this.toggleSwitchModalStep
+}
+*/
+function ChooseAddEditRecipe({stepData, addEditRecipeData, showModalData}) {
     if (stepData.modalStep !== 'ChooseAddEditRecipe') {
         return null;
     }
 
-    let modalBody = addedRecipe ? 
-        <Modal.Body>
-                <div className="alert alert-success" id="addedRecipeAlert" role="alert">
-                    Success! Your recipe has been added!
-                </div>
-        </Modal.Body> : null;
+    function handleAddRecipe() {
+        addEditRecipeData.resetAddEditRecipe();
+        stepData.handleStepChange('AddRecipeStep', stepData.stepNumber + 1)
+    }
 
-    return (<Modal show={true}>
+    function handleEditRecipe() {
+        addEditRecipeData.resetAddEditRecipe();
+        stepData.handleStepChange('EditRecipeStep', stepData.stepNumber + 1)
+    }
+
+    let modalBody;
+
+    if (addEditRecipeData.addedRecipe) {
+        modalBody = <Modal.Body>
+            <div className="alert alert-success" id="addedRecipeAlert" role="alert">
+                Success! Your recipe has been added!
+            </div>
+        </Modal.Body>;
+    } else if (addEditRecipeData.updatedRecipe) {
+        modalBody = <Modal.Body>
+            <div className="alert alert-success" id="addedRecipeAlert" role="alert">
+                Success! Your recipe has been updated!
+            </div>
+        </Modal.Body>;
+    } else {
+        modalBody = null;
+    }
+
+    return (<Modal show={showModalData.showModal} onHide={() => showModalData.toggleShowModal()}>
         <Modal.Header className="justifyContentCenter">
             <h1>Choose An Option</h1>
         </Modal.Header>
@@ -26,8 +58,8 @@ function ChooseAddEditRecipe({stepData, addedRecipe}) {
         {modalBody !== null && modalBody}
         
         <Modal.Footer className="justifyContentCenter">
-            <button type="button" className="btn btn-primary" onClick={() => stepData.handleStepChange('AddRecipeStep', stepData.stepNumber + 1)}>Add Recipe</button>
-            <button type="button" className="btn btn-secondary" onClick={() => stepData.handleStepChange('EditRecipeStep', stepData.stepNumber + 1)}>Edit Recipe</button>
+            <button type="button" className="btn btn-primary" onClick={() => handleAddRecipe()}>Add Recipe</button>
+            <button type="button" className="btn btn-secondary" onClick={() => handleEditRecipe()}>Edit Recipe</button>
         </Modal.Footer>
     </Modal>)
 }
