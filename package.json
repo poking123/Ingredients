@@ -8,11 +8,11 @@
     "build-task:autoprefixer": "postcss ./client/src/assets/css/*.css --use autoprefixer -d ./client/src/assets/css/css",
     "sass:build": "npm-run-all -p build-task:*",
     "sass:watch": "chokidar './assets/scss/*.scss' -c 'npm run sass:build'",
-    "client-install": "npm install --prefix client",
+    "client-install": "npm install --prefix ../client",
     "test": "mocha",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm start --prefix client",
+    "client": "npm start --prefix ../client",
     "localMongo": "mongod",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"gulp\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
