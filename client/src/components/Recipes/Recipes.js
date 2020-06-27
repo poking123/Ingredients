@@ -76,23 +76,11 @@ class Recipes extends React.Component {
         return recipeName !== null && recipeName !== undefined && recipeName !== '';
     }
 
+    // may have some problems - login
     getRecipe = async() => {
-        let idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
-        let clientId;
-        let hasClientId = false;
-        if (idToken !== null && idToken.idToken !== undefined) {
-            clientId = idToken.idToken.clientId;
-            hasClientId = clientId !== undefined && clientId != null;
-        }
-
-        if (!hasClientId) {
-            console.log('doesnt have clientId');
-            return false;
-        }
 
         let variables = {
             name: this.state.recipeName,
-            clientId: clientId
         };
 
         let recipe = await this.props.client.query({

@@ -33,8 +33,6 @@ app.use('/graphql', graphqlHTTP({
 const db = process.env.MONGO_URI;
 
 var settings = {
-    reconnectTries : 10,
-    autoReconnect : true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

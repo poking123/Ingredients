@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { v4 as uuidv4 } from 'uuid';
-import { addUserMutation } from '../queries/queries';
+import { addOrUpdateUserMutation } from '../queries/queries';
 
 class CreateAnAccount extends React.Component {
     constructor(props) {
@@ -22,20 +22,28 @@ class CreateAnAccount extends React.Component {
         });
     }
 
-    handleSubmit = (e) => {
+    registerUser = (e) => {
         // Registers User
         e.preventDefault();
 
         const { username, password, email } = this.state;
-        console.log(this.props)
-        this.props.addUserMutation({
+        this.props.addOrUpdateUserMutation({
             variables: {
                 id: uuidv4(),
                 username,
                 password,
                 email,
             }
+        }).then(response => {
+            console.log(response)
+            console.log(this.props.addOrUpdateUserMutationResult)
         });
+
+        this.setState({
+            username: '',
+            password: '',
+            email: '',
+        })
     }
 
     render() {
@@ -48,17 +56,17 @@ class CreateAnAccount extends React.Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input type="text" className="form-control" name="password" value={this.state.password} onChange={e => this.handleInputChange(e)} placeholder="Enter Password" />
+                        <input type="password" className="form-control" name="password" value={this.state.password} onChange={e => this.handleInputChange(e)} placeholder="Enter Password" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email address</label>
                         <input type="email" className="form-control" name="email" value={this.state.email} onChange={e => this.handleInputChange(e)} placeholder="Enter email" />
                     </div>
-                    <button type="submit" className="btn btn-primary" onClick={(e) => this.handleSubmit(e)}>Register</button>
+                    <button type="submit" className="btn btn-primary" onClick={(e) => this.registerUser(e)}>Register</button>
                 </form>
             </div>)
     }
 }
 
 
-export default graphql(addUserMutation, { name: "addUserMutation" })(CreateAnAccount);
+export default graphql(addOrUpdateUserMutation, { name: "addOrUpdateUserMutation" })(CreateAnAccount);
