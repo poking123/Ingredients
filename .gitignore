@@ -29,3 +29,4 @@ yarn-error.log*
 /Terraform/variables.tf
 /Terraform/terraform.tf
 /Terraform/.terraform/*
+/Terraform/*.tfvars
