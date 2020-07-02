@@ -22,11 +22,18 @@ const app = express();
 // allow cross-origin requests
 app.use(cors());
 
+// API Requests
+const recipeAPIs = require('./routes/api/recipeAPIs');
+app.use('/api/recipes', recipeAPIs);
+
+const userAPIs = require('./routes/api/userAPIs');
+app.use('/api/users', userAPIs);
+
 // bind express with graphql
-app.use('/graphql', graphqlHTTP({
-    schema,
-    graphiql: process.env.NODE_ENV === 'development'
-}));
+// app.use('/graphql', graphqlHTTP({
+//     schema,
+//     graphiql: process.env.NODE_ENV === 'development'
+// }));
 
 // connect to the database
 // const db = keys.mongoURI;

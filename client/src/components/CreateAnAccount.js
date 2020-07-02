@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { v4 as uuidv4 } from 'uuid';
 import { addOrUpdateUserMutation } from '../queries/queries';
+import axios from 'axios';
 
 class CreateAnAccount extends React.Component {
     constructor(props) {
@@ -27,16 +28,27 @@ class CreateAnAccount extends React.Component {
         e.preventDefault();
 
         const { username, password, email } = this.state;
-        this.props.addOrUpdateUserMutation({
-            variables: {
-                id: uuidv4(),
-                username,
-                password,
-                email,
-            }
-        }).then(response => {
-            console.log(response)
-            console.log(this.props.addOrUpdateUserMutationResult)
+        // GRAPHQL
+        // this.props.addOrUpdateUserMutation({
+        //     variables: {
+        //         id: uuidv4(),
+        //         username,
+        //         password,
+        //         email,
+        //     }
+        // }).then(response => {
+        //     console.log(response)
+        //     console.log(this.props.addOrUpdateUserMutationResult)
+        // });
+
+        let data = {
+            username,
+            password,
+            email
+        }
+
+        axios.post(`${process.env.REACT_APP_SERVER_URI}/api/users/addOrUpdateUser`, data).then(res => {
+            console.log(res)
         });
 
         this.setState({

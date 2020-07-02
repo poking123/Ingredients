@@ -26,7 +26,7 @@ let sha512 = function(password, salt){
     let hash = crypto.createHash('sha512')
             .update(salt + password)
             .digest('hex');
-    return hash
+    return hash;
 };
 
 const IngredientType = new GraphQLObjectType({
