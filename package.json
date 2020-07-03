@@ -35,7 +35,7 @@
     "install": "^0.12.2",
     "mocha": "^5.2.0",
     "mongodb": "^3.5.9",
-    "mongoose": "^5.9.20",
+    "mongoose": "^5.9.21",
     "node-sass": "^4.14.1",
     "node-sass-chokidar": "^1.5.0",
     "npm": "^6.14.5",
