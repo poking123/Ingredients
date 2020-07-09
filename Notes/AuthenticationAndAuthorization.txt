@@ -1,0 +1,11 @@
+https://www.youtube.com/watch?v=7nafaH9SddU
+
+
+- Create an account -> account stored on database (backend)
+- User logs in -> Account is authenticated in the backend -> on success, we generate a jwt token and send it to
+the frontend to store it in localStorage
+- when we send something to the backend, we can authorize with the token (need to send the token)
+	- need a verify token function
+	- need jwt.verify(req.token, 'secretKey', (err, authData) => {...
+
+- something about protecting routes

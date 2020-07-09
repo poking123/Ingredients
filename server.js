@@ -7,14 +7,15 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 // const path = require('path');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 // Configuration for Environment Variables
 // Local
 // const envPath = path.join(__dirname, '.env');
 // Production.Local
 const envPath = path.join(__dirname, '.env.production.local');
-
-require('dotenv').config({path: envPath});
+if (process.env.NODE_ENV !== 'production')
+    require('dotenv').config({path: envPath});
 
 // App
 const app = express();
@@ -22,11 +23,17 @@ const app = express();
 // allow cross-origin requests
 app.use(cors());
 
+// Login/Logout/Authentication
+const authRoutes = require('./routes/authentication/authRoutes');
+app.use('/auth', authRoutes);
+
+
 // API Requests
 const recipeAPIs = require('./routes/api/recipeAPIs');
 app.use('/api/recipes', recipeAPIs);
 
 const userAPIs = require('./routes/api/userAPIs');
+const { env } = require('process');
 app.use('/api/users', userAPIs);
 
 // bind express with graphql

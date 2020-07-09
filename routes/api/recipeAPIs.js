@@ -45,7 +45,7 @@ router.post('/addRecipe', (req, res) => {
     newRecipe.save().then(recipe => res.json(recipe));
 });
 
-// @route   POST api/recipes/updateRecipe
+// @route   POST api/recipes/updateRecipe:id
 // @desc    Update a Recipe
 // @access  Public
 router.post('/updateRecipe/:id', (req, res) => {
@@ -58,7 +58,7 @@ router.post('/updateRecipe/:id', (req, res) => {
     Recipe.updateOne({"_id": req.params.id}, setValues).then(recipe => res.json(recipe));
 });
 
-// @route   DELETE api/recipes/:deleteRecipe/:id
+// @route   DELETE api/recipes/deleteRecipe/:id
 // @desc    Delete a Recipe
 // @access  Public
 router.post('/deleteRecipe/:id', (req, res) => {

@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ShoppingList from './components/ShoppingList/ShoppingList';
 import Recipes from './components/Recipes/Recipes';
 import CreateAnAccount from './components/CreateAnAccount';
+import Login from './components/Login';
 
 // Jquery and Bootstrap, needed for click functions
 // Even though they are not used
@@ -35,6 +36,7 @@ function App() {
 				<Route path='/Shopping_List' component={ShoppingList} />
 				<Route path='/Recipes' component={Recipes} />
 				<Route path='/Create_An_Account' component={CreateAnAccount} />
+				<Route path='/Login' component={Login} />
 			</div>
 		</Router>
 	</ApolloProvider>
